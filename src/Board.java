@@ -27,7 +27,7 @@ public class Board{
 	}
 	public static void main(String args[]){
 		wind = 0;
-		dealer = 0;	//maybe we should decide this randomly?
+		dealer = 0;	//maybe we should decide this randomly? {talvez devêssemos decidir isso aleatoriamente?}
 		game = 0;
 		shuffler = new Shuffler();
 		GUI = new comGUI();

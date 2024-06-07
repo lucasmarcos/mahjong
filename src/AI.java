@@ -403,6 +403,7 @@ public class AI extends Player{
 	}
 
 	//if chow/pong failed, use this method to notify player
+	// se chow/pong falhar, use este método para notificar o jogador
 	public void failed(){
 		if( exposed > 0 )
 			exposed-- ;
