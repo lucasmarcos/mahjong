@@ -3,9 +3,9 @@ import java.util.*;
 
 public class Tile implements Comparable<Tile>{
 	
-	private String[] suit_dictionary = {"萬", "筒", "條"};
-	private String[] value_dictionary = {"一", "二", "三", "四", "五", "六", "七", "八", "九"};
-	private String[] word_dictionary = {"東", "南", "西", "北", "中", "發", "白"};
+	private String[] suit_dictionary = {"萬", "筒", "條"}; // Dez mil, cilindro, faixa
+	private String[] value_dictionary = {"一", "二", "三", "四", "五", "六", "七", "八", "九"}; // "um dois três quatro cinco seis sete oito nove"
+	private String[] word_dictionary = {"東", "南", "西", "北", "中", "發", "白"}; // "Leste", "Sul", "Oeste", "Norte", "Médio", "Fa", "branco"
 	
 	public final int suit;
 	public final int value;

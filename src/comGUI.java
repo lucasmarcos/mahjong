@@ -225,7 +225,7 @@ class comGUI
 		private void doSelect(int from, Tile newTile)
 		{
 			//boolean[] b = {true, true, true, true, true};
-			boolean[] b = {false, false, false, false, false}; /*可做 吃, 碰, 槓, 聽, 胡*/
+			boolean[] b = {false, false, false, false, false}; /*可做 吃, 碰, 槓, 聽, 胡*/ //{Pode comer, tocar, tocar, ouvir, bagunçar}
 			
 			int tempType = hand.chowable(newTile);
 			ArrayList<Tile> temp = hand.tingable(newTile);

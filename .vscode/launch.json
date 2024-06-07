@@ -6,13 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "mainGUI"
-        },
-        {
-            "type": "java",
-            "name": "Board(1)",
+            "name": "Board",
             "request": "launch",
             "mainClass": "Board",
             "projectName": "Mahjong"

@@ -71,8 +71,8 @@ class mainGUI extends JFrame {
 	
 	private int numRightPlayer, numUpPlayer, numLeftPlayer;
 	
-	private boolean[] choice = {false, false, false, false, false, false}; /*choose 吃 碰 槓 聽 胡 不要*/ 
-	private boolean[] select = {false, false, false, false, false}; /*you can choose 吃 碰 槓 聽 胡*/
+	private boolean[] choice = {false, false, false, false, false, false}; /*choose 吃 碰 槓 聽 胡 不要*/ // Coma, toque, ouça, ouça, não
+	private boolean[] select = {false, false, false, false, false}; /*you can choose 吃 碰 槓 聽 胡*/ // Coma, toque e ouça
 	private int chowOption;
 	private ArrayList<ArrayList<Tile>> chewChoice;
 	
@@ -241,7 +241,7 @@ class mainGUI extends JFrame {
 			flag |= select[i];
 		if(flag){
 	        JDialog dialog = new JDialog ();
-	        dialog.setTitle("請選擇");
+	        dialog.setTitle("Por favor escolha"); //請選擇 - Por favor escolha
 	        dialog.setModal (true);
 	        dialog.setAlwaysOnTop (true);
 	        dialog.setModalityType (Dialog.ModalityType.APPLICATION_MODAL);
@@ -263,13 +263,13 @@ class mainGUI extends JFrame {
 			panel.add(panel_2);
 			panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-			String s = "你摸了";
+			String s = "Você tocou"; // Você tocou 你摸了
 			if(thrower == 1)
-				s = "你的下家打了";
+				s = "Seu próximo está derrotado"; // Seu próximo está derrotado 你的下家打了
 			else if(thrower == 2)
-				s = "你的對家打了";
+				s = "Seu oponente acertou"; // Seu oponente acertou 你的對家打了
 			else if(thrower == 3)
-				s = "你的上家打了";
+				s = "Sua última família foi espancada"; // Sua última família foi espancada 你的上家打了
 			panel_2.add(new JLabel(s));
 			addLabel(panel_2, newTile.suit, newTile.value+1, false);
 			
@@ -282,17 +282,17 @@ class mainGUI extends JFrame {
 	{
 		ButtonGroup group = new ButtonGroup();
 		if(select[0])
-			group.add(addButton(panel, "吃", 0, choice, dialog));
+			group.add(addButton(panel, "comer", 0, choice, dialog)); // comer 吃
 		if(select[1])
-			group.add(addButton(panel, "碰", 1, choice, dialog));
+			group.add(addButton(panel, "ressalto", 1, choice, dialog)); // ressalto 碰
 		if(select[2])
-			group.add(addButton(panel, "槓", 2, choice, dialog));
+			group.add(addButton(panel, "barra", 2, choice, dialog)); // barra 槓
 		if(select[3])
-			group.add(addButton(panel, "聽", 3, choice, dialog));
+			group.add(addButton(panel, "ouvir", 3, choice, dialog)); // ouvir 聽
 		if(select[4])
-			group.add(addButton(panel, "胡", 4, choice, dialog));
+			group.add(addButton(panel, "Hu", 4, choice, dialog)); // Hu 胡
 		
-		group.add(addButton(panel, "不要", 5, choice, dialog));
+		group.add(addButton(panel, "Não quero", 5, choice, dialog)); // não quero 不要
 		
 		boolean[] b = {false, false, false, false, false};
 		setSelect(b);
@@ -303,17 +303,17 @@ class mainGUI extends JFrame {
 	{
 		ButtonGroup group = new ButtonGroup();
 		if(select[0])
-			group.add(addRadioButton(panel, "吃", 0, choice));
+			group.add(addRadioButton(panel, "comer", 0, choice)); // comer 吃
 		if(select[1])
-			group.add(addRadioButton(panel, "碰", 1, choice));
+			group.add(addRadioButton(panel, "ressalto", 1, choice)); // ressalto 碰
 		if(select[2])
-			group.add(addRadioButton(panel, "槓", 2, choice));
+			group.add(addRadioButton(panel, "barra", 2, choice)); // barra 槓
 		if(select[3])
-			group.add(addRadioButton(panel, "聽", 3, choice));
+			group.add(addRadioButton(panel, "ouvir", 3, choice)); // ouvir 聽
 		if(select[4])
-			group.add(addRadioButton(panel, "胡", 4, choice));
+			group.add(addRadioButton(panel, "Hu", 4, choice)); // Hu 胡
 		
-		group.add(addRadioButton(panel, "不要", 5, choice));
+		group.add(addRadioButton(panel, "não quero", 5, choice)); // não quero 不要
 		
 		boolean[] b = {false, false, false, false, false};
 		setSelect(b);
@@ -402,7 +402,7 @@ class mainGUI extends JFrame {
 
 		//lblWindgame = new JLabel("AAA");
 		lblWindgame.setForeground(Color.DARK_GRAY);
-		lblWindgame.setFont(new Font("微軟正黑體", Font.PLAIN, 24));
+		lblWindgame.setFont(new Font("微軟正黑體", Font.PLAIN, 24)); // Fonte preta da Microsoft
 		lblWindgame.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWindgame.setBounds(21, 20, 85, 40);
 		windPanel.add(lblWindgame);
@@ -434,22 +434,22 @@ class mainGUI extends JFrame {
 		
 		String s = "";
 		if(type == 0){
-			s = "流局!";
+			s = "Perdido!"; // Perdido! 流局!
 		}
 		else{
 			if(from == 0)
-				s = "你";
+				s = "você"; // você 你
 			else if(from == 1)
-				s = "你的下家";
+				s = "sua próxima casa"; // sua próxima casa 你的下家
 			else if(from == 2)
-				s = "你的對家";
+				s = "seu oponente"; // seu oponente 你的對家
 			else
-				s = "你的上家";
+				s = "Sua última família"; // Sua última família 你的上家
 			
 			if(type == 1)
-				s += "榮了!";
+				s += "Orgulhoso!"; // Orgulhoso! 榮了!
 			else
-				s += "胡了!";
+				s += "Que tolo!"; // Que tolo! 胡了!
 		}
 		panel_1.add(new JLabel(s));
 
@@ -458,7 +458,7 @@ class mainGUI extends JFrame {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JButton button = new JButton("確認");
+		JButton button = new JButton("confirme"); // confirme 確認
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				reset();
@@ -598,14 +598,14 @@ class mainGUI extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		panel_1.add(new JLabel("有人的優先權比你高,執行失敗!"));
+		panel_1.add(new JLabel("Alguém tem prioridade maior que você e a execução falhou!")); // Alguém tem prioridade maior que você e a execução falhou! 有人的優先權比你高,執行失敗!
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 139, 294, 44);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JButton button = new JButton("確認");
+		JButton button = new JButton("confirme"); // confirme 確認
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dialog.dispose();
@@ -639,7 +639,7 @@ class mainGUI extends JFrame {
 	{
 		if(chewChoice.size() > 1){
 			JDialog dialog = new JDialog ();
-	        dialog.setTitle("要吃哪一種");
+	        dialog.setTitle("Qual comer"); // Qual comer 要吃哪一種
 	        dialog.setModal (true);
 	        dialog.setAlwaysOnTop (true);
 	        dialog.setModalityType (Dialog.ModalityType.APPLICATION_MODAL);
@@ -687,7 +687,7 @@ class mainGUI extends JFrame {
 			panel.add(panel_2);
 			panel_2.setLayout(null);
 			
-			JButton button = new JButton("確認");
+			JButton button = new JButton("confirme"); // confirme 確認
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(cChoice[0] || cChoice[1] || cChoice[2]){
@@ -731,8 +731,8 @@ class mainGUI extends JFrame {
 	public void showThrowTile(boolean throwTile)
 	{
 		if(throwTile){
-			lblThrowtile = new JLabel("請出牌");
-			lblThrowtile.setFont(new Font("微軟正黑體", Font.BOLD | Font.ITALIC, 18));
+			lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
+			lblThrowtile.setFont(new Font("微軟正黑體", Font.BOLD | Font.ITALIC, 18)); // Fonte preta da Microsoft
 			lblThrowtile.setForeground(Color.RED);
 			lblThrowtile.setBounds(31, 23, 70, 35);
 			throwPanel.add(lblThrowtile);
@@ -745,11 +745,11 @@ class mainGUI extends JFrame {
 	{
 		this.wind = wind;
 		this.game = game;
-		String[] windString = {"東", "南", "西", "北"};
+		String[] windString = {"Leste", "Sul", "Oeste", "Norte"}; // Leste, Sul, Oeste, norte {"東", "南", "西", "北"}
 		String s;
 		if(game == -1){
-			s = "遊戲結束";
-			JToggleButton button = new JToggleButton("重來");
+			s = "Fim de Jogo"; // game Over ou Fim de Jogo {遊戲結束}
+			JToggleButton button = new JToggleButton("De novo"); // De novo {重來}
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					removeButton(throwPanel, button);
@@ -764,7 +764,7 @@ class mainGUI extends JFrame {
 			throwPanel.repaint();
 		}
 		else{
-			s = windString[wind] + game + "局";
+			s = windString[wind] + game + " escritório"; // escritório {局}
 		}
 		lblWindgame.setText(s);
 	}
