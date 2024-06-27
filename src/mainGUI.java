@@ -90,6 +90,12 @@ class mainGUI extends JFrame {
 	public volatile boolean nok;
 	public ArrayList<Tile> push;
 	public boolean restart;
+
+	// Alteração Ibanez
+
+	private JPanel xPanel;
+	private JDialog xDialog;
+
 	
 	/**
 	 * Launch the application.
@@ -155,8 +161,10 @@ class mainGUI extends JFrame {
 	{
 		addButton(myPlayer, tablePanel, suit, value);
 	}
-	public JButton addButton(JPanel panel, String name, int index, boolean[] choice, JDialog dialog)
+	public JButton addButton(String name, int index)
 	{
+		JPanel panel = this.getPanel();
+		JDialog dialog = this.getDialog();
 		JButton rdbtnNewRadioButton = new JButton(name);
 		rdbtnNewRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -273,6 +281,9 @@ class mainGUI extends JFrame {
 			panel_2.add(new JLabel(s));
 			addLabel(panel_2, newTile.suit, newTile.value+1, false);
 			
+			// Mudança 01
+
+			
 			createButton(panel_1, dialog);
 			dialog.setVisible (true);
 		}
@@ -280,19 +291,25 @@ class mainGUI extends JFrame {
 	
 	public void createButton(JPanel panel, JDialog dialog)
 	{
-		ButtonGroup group = new ButtonGroup();
-		if(select[0])
-			group.add(addButton(panel, "comer", 0, choice, dialog)); // comer 吃
-		if(select[1])
-			group.add(addButton(panel, "ressalto", 1, choice, dialog)); // ressalto 碰
-		if(select[2])
-			group.add(addButton(panel, "barra", 2, choice, dialog)); // barra 槓
-		if(select[3])
-			group.add(addButton(panel, "ouvir", 3, choice, dialog)); // ouvir 聽
-		if(select[4])
-			group.add(addButton(panel, "Hu", 4, choice, dialog)); // Hu 胡
+		this.setPanel(panel);
+		this.setDialog(dialog);
 		
-		group.add(addButton(panel, "Não quero", 5, choice, dialog)); // não quero 不要
+		ButtonGroup group = new ButtonGroup();
+			
+		// Mudança 02
+
+		if(select[0])
+			group.add(addButton("comer", 0)); // comer 吃
+		if(select[1])
+			group.add(addButton("ressalto", 1)); // ressalto 碰
+		if(select[2])
+			group.add(addButton("barra", 2)); // barra 槓
+		if(select[3])
+			group.add(addButton("ouvir", 3)); // ouvir 聽
+		if(select[4])
+			group.add(addButton("Hu", 4)); // Hu 胡
+		
+		group.add(addButton("Não quero", 5)); // não quero 不要
 		
 		boolean[] b = {false, false, false, false, false};
 		setSelect(b);
@@ -402,7 +419,7 @@ class mainGUI extends JFrame {
 
 		//lblWindgame = new JLabel("AAA");
 		lblWindgame.setForeground(Color.DARK_GRAY);
-		lblWindgame.setFont(new Font("微軟正黑體", Font.PLAIN, 24)); // Fonte preta da Microsoft
+		lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
 		lblWindgame.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWindgame.setBounds(21, 20, 85, 40);
 		windPanel.add(lblWindgame);
@@ -732,7 +749,7 @@ class mainGUI extends JFrame {
 	{
 		if(throwTile){
 			lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
-			lblThrowtile.setFont(new Font("微軟正黑體", Font.BOLD | Font.ITALIC, 18)); // Fonte preta da Microsoft
+			lblThrowtile.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 10)); // Fonte preta da Microsoft
 			lblThrowtile.setForeground(Color.RED);
 			lblThrowtile.setBounds(31, 23, 70, 35);
 			throwPanel.add(lblThrowtile);
@@ -764,9 +781,27 @@ class mainGUI extends JFrame {
 			throwPanel.repaint();
 		}
 		else{
-			s = windString[wind] + game + " escritório"; // escritório {局}
+			s = windString[wind] + " " + game + " escritório"; // escritório {局}
 		}
 		lblWindgame.setText(s);
+	}
+
+	// Metodos Genericos
+	
+	private JDialog getDialog() {
+		return this.xDialog;
+	}
+
+	private void setDialog(JDialog wDialog) {
+		this.xDialog = wDialog;
+	}
+	
+	private JPanel getPanel() {
+		return this.xPanel;
+	}
+
+	private void setPanel(JPanel wPanel) {
+		this.xPanel = wPanel;
 	}
 	
 }
