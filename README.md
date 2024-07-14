@@ -10,6 +10,7 @@ A Mahjong program implemented in Java.
 ### ABM - Associação Brasileira de Mahjong
 
 <https://www.youtube.com/playlist?list=PLEjuPbC9rfNRW14HVqwfAVZZ-b8uemi-s> (Playlist no youtube)
+<https://www.youtube.com/playlist?list=PLEjuPbC9rfNRbQGk47MviTf5Ig-Zpqxyf> (Pontuação Completa)
 
 # Como jogar Mahjong
 ### wikiHow
