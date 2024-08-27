@@ -3,9 +3,6 @@ package mahjong;
 import java.lang.*;
 import java.util.*;
 
-import java.lang.*;
-import java.util.*;
-
 public class Hand {
 	
 	private ArrayList<ArrayList<Tile>> allTiles;
