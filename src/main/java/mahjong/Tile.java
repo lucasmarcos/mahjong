@@ -1,7 +1,9 @@
+package mahjong;
+
 import java.lang.*;
 import java.util.*;
 
-public class Tile implements Comparable<Tile>{
+public class Tile implements Comparable<Tile> {
 	
 	private String[] suit_dictionary = {"萬", "筒", "條"}; // Dez mil, cilindro, faixa
 	private String[] value_dictionary = {"一", "二", "三", "四", "五", "六", "七", "八", "九"}; // "um dois três quatro cinco seis sete oito nove"

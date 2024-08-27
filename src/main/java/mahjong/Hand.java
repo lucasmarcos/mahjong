@@ -1,3 +1,5 @@
+package mahjong;
+
 import java.lang.*;
 import java.util.*;
 

@@ -1,6 +1,8 @@
+package mahjong;
+
 import java.util.*;
 
-public class Action{
+public class Action {
 	public int type;
 	/*
 	 * 0:摸 {0: toque}
@@ -15,9 +17,8 @@ public class Action{
 	 */
 	public ArrayList<Tile> tiles;	//board會把第0張當作是要打掉的牌，其他看要放吃碰槓的傳給GUI用還是幹嘛都可以(?
 	/* A placa considerará a 0ª carta como a carta a ser destruída, e o restante pode ser passado para a GUI para uso ou qualquer outra coisa (? */
-	public Action(int i, ArrayList<Tile> t){
+	public Action(int i, ArrayList<Tile> t) {
 		type = i;
 		tiles = t;
 	}
-
 }

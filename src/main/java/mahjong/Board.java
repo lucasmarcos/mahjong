@@ -1,7 +1,9 @@
+package mahjong;
+
 import java.lang.*;
 import java.util.*;
 
-public class Board{
+public class Board {
 	public static final int initScore = 25000;
 	public static final int games = 1;	//1東風戰 2東南戰... {1 Guerra Dongfeng, 2 Guerra Sudeste...}
 	public static int wind;	//0東 1南 2西 3北 {0 Leste 1 Sul 2 Oeste 3 Norte}

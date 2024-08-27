@@ -1,10 +1,13 @@
+package mahjong;
+
 import java.lang.*;
 import java.util.*;
 
 enum Status {
 	FREE, RICHI, WIN
 }
-public class AI extends Player{
+
+public class AI extends Player {
 
 	private final int DRAW = 0 ;
 	private final int CHOW = 1 ;

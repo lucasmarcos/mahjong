@@ -1,7 +1,9 @@
+package mahjong;
+
 import java.lang.*;
 import java.util.*;
 
-public abstract class Player{
+public abstract class Player {
 	private String name;
 	private int score;
 	protected Hand hand;

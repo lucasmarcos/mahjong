@@ -1,7 +1,9 @@
+package mahjong;
+
 import java.awt.EventQueue;
 import java.util.ArrayList;
-class comGUI
-{
+
+class comGUI {
 	public static final int tableIndex = 0;
 	public static final int myPlayerOpenIndex = 1;
 	public static final int rightPlayerIndex = 2;
