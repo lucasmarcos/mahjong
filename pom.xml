@@ -1,0 +1,23 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>utfpr</groupId>
+  <artifactId>mahjong</artifactId>
+  <version>0.0.1</version>
+  <name>mahjong</name>
+  <url>https://github.com/lucasmarcos/mahjong</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>22</maven.compiler.source>
+    <maven.compiler.target>22</maven.compiler.target>
+  </properties>
+  <build>
+    <pluginManagement>
+      <plugins>
+       <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+        </plugin>
+     </plugins>
+    </pluginManagement>
+  </build>
+</project>
