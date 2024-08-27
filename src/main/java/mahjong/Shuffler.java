@@ -1,59 +1,54 @@
 package mahjong;
 
-import java.lang.*;
-import java.util.*;
-
 public class Shuffler {
-	Shuffler() {
-		setSize(136);
-	}
+    public int[] index;
+    public int count = 0;
+    private int left = 14;
+    Shuffler() {
+        setSize(136);
+    }
+    Shuffler(int N) {
+        setSize(N);
+    }
 
-	Shuffler(int N) {
-		setSize(N);
-	}
+    public void setSize(int N) {
+        if (index == null || N != index.length) {
+            index = new int[N];
+            initializeIndex();
+            permuteIndex();
+        }
+    }
 
-	public int[] index;
-	public int count = 0;
-	private int left = 14;
+    public void initializeIndex() {
+        for (int i = 0; i < index.length; i++) index[i] = i;
+    }
 
-	public void setSize(int N) {
-		if (index == null || N != index.length) {
-			index = new int[N];
-			initializeIndex();
-			permuteIndex();
-		}
-	}
+    public void permuteIndex() {
+        java.util.Random rnd = new java.util.Random();
+        for (int i = index.length - 1; i >= 0; i--) {
+            int j = rnd.nextInt(i + 1);
+            int tmp = index[j];
+            index[j] = index[i];
+            index[i] = tmp;
+        }
+        left = 14;
+        count = 0;
+    }
 
-	public void initializeIndex() {
-		for (int i=0;i<index.length;i++) index[i] = i;
-	}
+    public void ackKong() {
+        left++;
+    }
 
-	public void permuteIndex(){
-		java.util.Random rnd = new java.util.Random();
-		for (int i=index.length-1;i>=0;i--) {
-			int j = rnd.nextInt(i+1);
-			int tmp = index[j];
-			index[j] = index[i];
-			index[i] = tmp;
-		}
-		left = 14;
-		count = 0;
-	}
+    public Tile getNext() {
+        Tile res;
+        int next = index[count++];
+        if (count > index.length - left) {
+            permuteIndex();
+            return null;
+        }
 
-	public void ackKong() {
-		left++;
-	}
+        res = new Tile(next / 4);
 
-	public Tile getNext() {
-		Tile res;
-		int next = index[count++];
-		if (count > index.length - left) {
-			permuteIndex();
-			return null;
-		}
-
-		res = new Tile(next/4);
-
-		return res;
-	}
+        return res;
+    }
 }

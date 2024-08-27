@@ -1,47 +1,23 @@
 package mahjong;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Component;
-import java.awt.Container;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JToggleButton;
-import java.awt.Insets;
-import javax.swing.SpringLayout;
-import javax.swing.JDesktopPane;
-import javax.swing.JLabel;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.JRadioButton;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import javax.swing.ButtonGroup;
-import javax.swing.JDialog;
-import java.awt.Dialog;
-
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 
 class mainGUI extends JFrame {
-    private JPanel contentPane;
+    public volatile boolean ok;
+    public volatile boolean nok;
+    public ArrayList<Tile> push;
+    public boolean restart;
     JButton btnOpen;
-    ArrayList < JLabel > table;
+    ArrayList<JLabel> table;
+    int wind = 0, game = 0;
+    private JPanel contentPane;
     private JPanel myPlayer;
     private JPanel myPlayerOpen;
     private JButton btnClear;
@@ -56,21 +32,17 @@ class mainGUI extends JFrame {
     private JButton btnReset;
     private JPanel tablePanel;
     private JToggleButton tglbtnToggleButton;
-
     private JPanel throwPanel;
     private JLabel lblThrowtile;
     private JPanel windPanel;
     private JLabel lblWindgame = new JLabel();
-
-    private ArrayList < Tile > rightPlayerOpenTile;
-    private ArrayList < Tile > upPlayerOpenTile;
-    private ArrayList < Tile > leftPlayerOpenTile;
-    private ArrayList < Tile > myPlayerOpenTile;
-    private ArrayList < Tile > tableTile;
-    private ArrayList < Tile > myPlayerHandTile;
-
+    private ArrayList<Tile> rightPlayerOpenTile;
+    private ArrayList<Tile> upPlayerOpenTile;
+    private ArrayList<Tile> leftPlayerOpenTile;
+    private ArrayList<Tile> myPlayerOpenTile;
+    private ArrayList<Tile> tableTile;
+    private ArrayList<Tile> myPlayerHandTile;
     private int numRightPlayer, numUpPlayer, numLeftPlayer;
-
     private boolean[] choice = {
         false,
         false,
@@ -87,34 +59,17 @@ class mainGUI extends JFrame {
         false
     }; /*you can choose 吃 碰 槓 聽 胡*/ // Coma, toque e ouça
     private int chowOption;
-    private ArrayList < ArrayList < Tile >> chewChoice;
-
+    private ArrayList<ArrayList<Tile>> chewChoice;
     private int flipNum;
-    private ArrayList < Tile > rightPlayerHandTile;
-    private ArrayList < Tile > upPlayerHandTile;
-    private ArrayList < Tile > leftPlayerHandTile;
-
+    private ArrayList<Tile> rightPlayerHandTile;
+    private ArrayList<Tile> upPlayerHandTile;
+    private ArrayList<Tile> leftPlayerHandTile;
     private int thrower;
     private Tile newTile;
 
-    int wind = 0, game = 0;
-
-    public volatile boolean ok;
-    public volatile boolean nok;
-    public ArrayList < Tile > push;
-    public boolean restart;
-
     // Alteração Ibanez
-
     private JPanel xPanel;
     private JDialog xDialog;
-
-    /**
-     * Launch the application.
-     */
-    public void start() {
-        this.setVisible(true);
-    }
 
     /**
      * Create the frame.
@@ -123,14 +78,14 @@ class mainGUI extends JFrame {
         flipNum = -1;
 
         ok = false;
-        push = new ArrayList < Tile > ();
+        push = new ArrayList<Tile>();
 
-        rightPlayerOpenTile = new ArrayList < Tile > ();
-        upPlayerOpenTile = new ArrayList < Tile > ();
-        leftPlayerOpenTile = new ArrayList < Tile > ();
-        myPlayerOpenTile = new ArrayList < Tile > ();
-        tableTile = new ArrayList < Tile > ();
-        myPlayerHandTile = new ArrayList < Tile > ();
+        rightPlayerOpenTile = new ArrayList<Tile>();
+        upPlayerOpenTile = new ArrayList<Tile>();
+        leftPlayerOpenTile = new ArrayList<Tile>();
+        myPlayerOpenTile = new ArrayList<Tile>();
+        tableTile = new ArrayList<Tile>();
+        myPlayerHandTile = new ArrayList<Tile>();
 
         numRightPlayer = 0;
         numUpPlayer = 0;
@@ -142,13 +97,20 @@ class mainGUI extends JFrame {
         reset();
     }
 
+    /**
+     * Launch the application.
+     */
+    public void start() {
+        this.setVisible(true);
+    }
+
     public void renew() {
         contentPane.revalidate();
         contentPane.repaint();
     }
 
     public void changeEnable(boolean b) {
-        for (Component component: ((Container) myPlayer).getComponents()) {
+        for (Component component : ((Container) myPlayer).getComponents()) {
             component.setEnabled(b);
         }
     }
@@ -209,11 +171,13 @@ class mainGUI extends JFrame {
         panel.revalidate();
         panel.repaint();
     }
+
     public void removeLabel(JPanel panel, JLabel label) {
         panel.remove(label);
         panel.revalidate();
         panel.repaint();
     }
+
     public void addLabel(JPanel panel, int suit, int value, boolean fall) {
         JLabel label = new JLabel("");
 
@@ -224,6 +188,7 @@ class mainGUI extends JFrame {
             label.setPreferredSize(new java.awt.Dimension(30, 37));
         panel.add(label);
     }
+
     public ImageIcon decideIcon(int suit, int value, boolean fall) {
         String filePath = "/icon";
         if (value == 0)
@@ -371,6 +336,7 @@ class mainGUI extends JFrame {
         panel.add(rdbtnNewRadioButton);
         return rdbtnNewRadioButton;
     }
+
     public void setSelect(boolean[] _select) {
         for (int i = 0; i < 5; i++)
             select[i] = _select[i];
@@ -382,7 +348,7 @@ class mainGUI extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        table = new ArrayList < JLabel > ();
+        table = new ArrayList<JLabel>();
 
         tablePanel = new JPanel();
         tablePanel.setBackground(new Color(0, 100, 0));
@@ -446,6 +412,7 @@ class mainGUI extends JFrame {
         contentPane.revalidate();
         contentPane.repaint();
     }
+
     public void hu(int type, int from) {
         JDialog dialog = new JDialog();
         dialog.setModal(true);
@@ -503,6 +470,7 @@ class mainGUI extends JFrame {
 
         dialog.setVisible(true);
     }
+
     public void clear() {
         int length = tablePanel.getComponentCount();
         for (int i = 0; i < length; i++) {
@@ -542,7 +510,7 @@ class mainGUI extends JFrame {
         }
     }
 
-    public void setAllContent(ArrayList < ArrayList < Tile >> temp, int[] tempNum) {
+    public void setAllContent(ArrayList<ArrayList<Tile>> temp, int[] tempNum) {
         tableTile = temp.get(0);
         myPlayerOpenTile = temp.get(1);
         rightPlayerOpenTile = temp.get(2);
@@ -597,14 +565,16 @@ class mainGUI extends JFrame {
 
     public void sendToBoard(int suit, int value) {
         Tile t = new Tile(suit * 9 + (value - 1));
-        ArrayList < Tile > temp = new ArrayList < Tile > ();
+        ArrayList<Tile> temp = new ArrayList<Tile>();
         temp.add(t);
         push = temp;
         ack();
     }
+
     public void ack() {
         ok = true;
     }
+
     public void actionFail() {
         JDialog dialog = new JDialog();
         dialog.setModal(true);
@@ -641,6 +611,7 @@ class mainGUI extends JFrame {
 
         dialog.setVisible(true);
     }
+
     public void doChoice(boolean[] choice, JPanel panel_1) {
         if (choice[0]) {
             chewOptionFrame();
@@ -648,10 +619,12 @@ class mainGUI extends JFrame {
             ack();
         }
     }
-    public void setChowOption(int flag, ArrayList < ArrayList < Tile >> _chewChoice) {
+
+    public void setChowOption(int flag, ArrayList<ArrayList<Tile>> _chewChoice) {
         chowOption = flag;
         chewChoice = _chewChoice;
     }
+
     public boolean[] getChoice() {
         return choice;
     }
@@ -702,7 +675,7 @@ class mainGUI extends JFrame {
 
             for (int i = 0; i < chewChoice.size(); i++) {
                 group.add(addRadioButton(panel_1_[i], "", i, cChoice));
-                for (Tile temp: chewChoice.get(i))
+                for (Tile temp : chewChoice.get(i))
                     addLabel(panel_1_[i], temp.suit, temp.value + 1, false);
             }
 
@@ -736,7 +709,7 @@ class mainGUI extends JFrame {
         newTile = _newTile;
     }
 
-    public void setFlip(int num, ArrayList < Tile > temp) {
+    public void setFlip(int num, ArrayList<Tile> temp) {
         flipNum = num;
         if (num == 0)
             rightPlayerHandTile = temp;
