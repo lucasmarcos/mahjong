@@ -108,8 +108,6 @@ public class Hand {
 
     public ArrayList<Tile> tingable(Tile newTile) {
         boolean takepair = true;
-        ArrayList<Tile> noPairTing = new ArrayList<Tile>();
-        noPairTing.add(newTile);
 
         ArrayList<Tile> res = new ArrayList<Tile>();
 
