@@ -283,15 +283,4 @@ public class Hand {
         }
         return s;
     }
-
-    public void printList(ArrayList<ArrayList<Tile>> a) {
-        String s = "";
-        for (ArrayList<Tile> temp : a) {
-            for (Tile t : temp) {
-                for (int i = 0; i < t.getSize(); i++)
-                    s += (t.toString() + " ");
-            }
-        }
-        System.out.println(s);
-    }
 }
