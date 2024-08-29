@@ -65,11 +65,9 @@ class comGUI {
         tempNum[1] = numUpPlayer;
         tempNum[2] = numLeftPlayer;
 
-
         frame.setAllContent(temp, tempNum);
         frame.reset();
     }
-
 
     public void assignTile(ArrayList<ArrayList<Tile>> allTile) {
         table = allTile.get(tableIndex);
@@ -110,7 +108,6 @@ class comGUI {
         numRightPlayer = num[0];
         numUpPlayer = num[1];
         numLeftPlayer = num[2];
-
     }
 
     public void assignExposedKongNum(int which, int num) {
@@ -135,6 +132,7 @@ class comGUI {
             frame.setFlip(index, temp);
         else if (index == 2)
             frame.setFlip(index, temp);
+
         renewGUI();
     }
 
@@ -142,24 +140,19 @@ class comGUI {
         frame.showWind(wind, game);
         frame.nok = false;
         if (game == -1) {
-            while (frame.nok == false) {
-            }
+            while (frame.nok) {}
             System.out.println("restart");
         } else return false;
         return frame.restart;
     }
 
-
     public void showGUI() {
         frame.start();
     }
 
-
     public class PlayerGUI extends Player {
         public ArrayList<Tile> myHand = new ArrayList<Tile>();
         comGUI c;
-        //private Hand hand;
-        private Tile newTile;
         private ArrayList<Tile> discardTile;
         private ArrayList<Tile> pushTile;
         private boolean[] choice;
@@ -190,13 +183,13 @@ class comGUI {
             getHand();
         }
 
-
         public Action doSomething(int from, Tile tile) {
             frame.resetChoice();
             action = -1;
 
             //boolean[] b;
-            newTile = tile.same();
+            //private Hand hand;
+            Tile newTile = tile.same();
             doSelect(from, newTile);
 
             //frame.changeEnable(false);
@@ -204,7 +197,6 @@ class comGUI {
                 return null;
             return new Action(action, discardTile);
         }
-
 
         private void doSelect(int from, Tile newTile) {
             //boolean[] b = {true, true, true, true, true};
@@ -352,9 +344,10 @@ class comGUI {
                 discardTile.set(0, pushTile.get(0));
                 hand.discard(discardTile.get(0));
             }
-            for (Tile t : discardTile)
-                System.out.println(t);
 
+            for (Tile t : discardTile) {
+                System.out.println(t);
+            }
 
             frame.resetChoice();
             c.renewGUI();
@@ -362,6 +355,7 @@ class comGUI {
 
         private ArrayList<ArrayList<Tile>> getChewChoice(int flag, Tile newTile) {
             ArrayList<ArrayList<Tile>> temp = new ArrayList<ArrayList<Tile>>();
+
             if ((flag & 0b001) > 0) {
                 ArrayList<Tile> temp1 = new ArrayList<Tile>();
                 temp1.add(newTile.same(-2));
@@ -369,6 +363,7 @@ class comGUI {
                 temp1.add(newTile.same());
                 temp.add(temp1);
             }
+
             if ((flag & 0b010) > 0) {
                 ArrayList<Tile> temp1 = new ArrayList<Tile>();
                 temp1.add(newTile.same(-1));
@@ -376,6 +371,7 @@ class comGUI {
                 temp1.add(newTile.same());
                 temp.add(temp1);
             }
+
             if ((flag & 0b100) > 0) {
                 ArrayList<Tile> temp1 = new ArrayList<Tile>();
                 temp1.add(newTile.same(1));
@@ -383,18 +379,24 @@ class comGUI {
                 temp1.add(newTile.same());
                 temp.add(temp1);
             }
+
             return temp;
         }
 
         private void getHand() {
             int length = myHand.size();
-            for (int i = 0; i < length; i++)
+
+            for (int i = 0; i < length; i++) {
                 myHand.remove(0);
-            for (ArrayList<Tile> temp : hand.getAll())
-                for (Tile t : temp)
+            }
+
+            for (ArrayList<Tile> temp : hand.getAll()) {
+                for (Tile t : temp) {
                     for (int i = 0; i < t.getSize(); i++) {
                         myHand.add(new Tile(t.index));
                     }
+                }
+            }
         }
 
         public void GameOver(int type, int from) {
@@ -405,10 +407,6 @@ class comGUI {
 				frame.hu(false);*/
             frame.hu(type, from);
         }
-
-
-
-
 
 		/*public boolean doDraw(Tile tile, ArrayList<ArrayList<Tile>> currentTable)
 		{
@@ -425,6 +423,4 @@ class comGUI {
         //public Tile replace(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return new Tile(0);}
         //public Tile kong(ArrayList<ArrayList<Tile>> currentTable){return new Tile(0);}
     }
-
-
 }

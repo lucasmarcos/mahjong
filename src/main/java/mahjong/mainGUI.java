@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -226,8 +227,7 @@ class mainGUI extends JFrame {
         JButton rdbtnNewRadioButton = new JButton(name);
         rdbtnNewRadioButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < choice.length; i++)
-                    choice[i] = false;
+                Arrays.fill(choice, false);
                 choice[index] = true;
 
                 doChoice(choice, panel);
@@ -296,12 +296,6 @@ class mainGUI extends JFrame {
             filePath += "_fall.png";
         else
             filePath += ".png";
-
-        /*
-        System.out.println(filePath);
-        System.out.println(getClass().getResourceAsStream(filePath));
-		System.out.println(mainGUI.class.getResource(filePath));
-        */
 
         return (new ImageIcon(mainGUI.class.getResource(filePath)));
     }
@@ -380,8 +374,8 @@ class mainGUI extends JFrame {
             false,
             false
         };
-        setSelect(b);
 
+        setSelect(b);
     }
 
     public void createButtonGroup(JPanel panel) {
@@ -406,16 +400,15 @@ class mainGUI extends JFrame {
             false,
             false
         };
-        setSelect(b);
 
+        setSelect(b);
     }
 
     public JRadioButton addRadioButton(JPanel panel, String name, int index, boolean[] choice) {
         JRadioButton rdbtnNewRadioButton = new JRadioButton(name);
         rdbtnNewRadioButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent arg0) {
-                for (int i = 0; i < choice.length; i++)
-                    choice[i] = false;
+                Arrays.fill(choice, false);
                 choice[index] = true;
             }
         });
@@ -510,7 +503,6 @@ class mainGUI extends JFrame {
         contentPane.add(windPanel);
         windPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-
         //lblWindgame = new JLabel("AAA");
         lblWindgame.setForeground(Color.DARK_GRAY);
         lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
@@ -543,12 +535,10 @@ contentPane.add(btnHelp);
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.setBounds(100, 100, 310, 221);
 
-
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         panel.setLayout(null);
         dialog.setContentPane(panel);
-
 
         JPanel panel_1 = new JPanel();
         panel_1.setBounds(0, 0, 294, 134);

@@ -19,8 +19,6 @@ public class Board {
         "Hu" // Hu 胡
     };
     public static int dealer; //一開始的莊家 {O banqueiro no início}
-    private static Shuffler shuffler;
-    private static comGUI GUI;
 
     public static void printTiles(ArrayList<Tile> tiles) {
         for (Tile t : tiles) {
@@ -32,25 +30,31 @@ public class Board {
         wind = 0;
         dealer = 0;    //maybe we should decide this randomly? {talvez devêssemos decidir isso aleatoriamente?}
         game = 0;
-        shuffler = new Shuffler();
-        GUI = new comGUI();
+
+        Shuffler shuffler = new Shuffler();
+        comGUI GUI = new comGUI();
         Player[] player = new Player[4];
+
         ArrayList<ArrayList<Tile>> allTiles = new ArrayList<ArrayList<Tile>>();// 0萬 1筒 2條 3字 {0 = Dez mil, 1 = cilindro, 2 = faixa, 3 = Personagem}
         ArrayList<ArrayList<Tile>> table = new ArrayList<ArrayList<Tile>>();
+
         int[] left = {0, 0, 0, 0};
+
         GUI.initPlayerGUI("PlayerGUI", initScore, GUI);
         player[0] = GUI.player;
         table.add(new ArrayList<Tile>());    //河底 {fundo do rio}
+
         for (int i = 1; i < 4; i++) {
             player[i] = new AI("PlayerAI" + i, initScore);
         }
+
         for (int i = 0; i < 4; i++) {
             allTiles.add(new ArrayList<Tile>());
             table.add(new ArrayList<Tile>());    //副露 {Vice-exposição}
         }
-        while (true) {
 
-            table.get(0).clear();    //清空河底 {Limpe o fundo do rio}
+        while (true) {
+            table.getFirst().clear();    //清空河底 {Limpe o fundo do rio}
 
             //init 4 players' hands and tables
             for (int i = 0; i < 4; i++) {
@@ -90,7 +94,7 @@ public class Board {
                         }
                         GUI.assignTile(table);
                         GUI.renewGUI();
-                        tile = action.tiles.get(0);    //打出來的牌 {cartas jogadas}
+                        tile = action.tiles.getFirst();    //打出來的牌 {cartas jogadas}
                         Action selectAction = null;
                         int selectPlayer = -1;
                         for (int i = 1; i < 4; i++) {//問另外三家有沒有事情要做 {Pergunte às outras três empresas se elas têm algo a fazer.}
@@ -111,7 +115,7 @@ public class Board {
                             current = selectPlayer;
                             continue;
                         } else {//換下一家，到switch外面抽牌、決定動作 {Mude para a próxima casa, saia do switch para comprar cartas e decidir a ação}
-                            table.get(0).add(tile);
+                            table.getFirst().add(tile);
                             GUI.assignTile(table);
                             GUI.renewGUI();
                             current = (current + 1) % 4;
