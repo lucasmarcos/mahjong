@@ -274,13 +274,17 @@ public class Hand {
     }
 
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
+
         for (ArrayList<Tile> temp : allTiles) {
             for (Tile t : temp) {
-                for (int i = 0; i < t.getSize(); i++)
-                    s += (t.toString() + " ");
+                for (int i = 0; i < t.getSize(); i++) {
+                    s.append(t);
+                    s.append(" ");
+                }
             }
         }
-        return s;
+
+        return s.toString();
     }
 }
