@@ -4,30 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Hand {
-    private ArrayList<ArrayList<Tile>> allTiles;
-    private ArrayList<Tile> ting = new ArrayList<Tile>();
-
-    public Hand() {
-        allTiles = new ArrayList<ArrayList<Tile>>();
-        allTiles.add(new ArrayList<Tile>());    //wan
-        allTiles.add(new ArrayList<Tile>());    //tong
-        allTiles.add(new ArrayList<Tile>());    //tiao
-        allTiles.add(new ArrayList<Tile>());    //zi
-    }
+    private final ArrayList<ArrayList<Tile>> allTiles;
 
     public Hand(ArrayList<ArrayList<Tile>> all) {
-        //printList(all);
-        //System.out.println(all.get(0).size() + " " + all.get(1).size() + " " + all.get(2).size() + " " + all.get(3).size());
         allTiles = new ArrayList<ArrayList<Tile>>();
+
         allTiles.add(new ArrayList<Tile>());    //wan
         allTiles.add(new ArrayList<Tile>());    //tong
         allTiles.add(new ArrayList<Tile>());    //tiao
         allTiles.add(new ArrayList<Tile>());    //zi
+
         for (int i = 0; i < 4; i++) {
             for (Tile temp : all.get(i)) {
                 allTiles.get(i).add(temp.same());
             }
-
         }
     }
 
@@ -44,7 +34,8 @@ public class Hand {
         sort();
     }
 
-    public boolean discard(Tile n) { //If no this tile in hand return false (An error) {Se não, este bloco em mãos retornará falso (um erro)}
+    // If no this tile in hand return false (An error) {Se não, este bloco em mãos retornará falso (um erro)}
+    public boolean discard(Tile n) {
         Tile discardTile = n.same();
         discardTile.setSize(1);
         int index = allTiles.get(discardTile.suit).indexOf(discardTile);
@@ -58,7 +49,8 @@ public class Hand {
         return true;
     }
 
-    public boolean replace(Tile n, Tile o) { //If this old tile is not in hand return false (An error) {Se este bloco antigo não estiver em mãos, retorne falso (um erro)}
+    // If this old tile is not in hand return false (An error) {Se este bloco antigo não estiver em mãos, retorne falso (um erro)}
+    public boolean replace(Tile n, Tile o) {
         Tile oldTile = o.same();
         oldTile.setSize(1);
         Tile newTile = n.same();
@@ -115,13 +107,6 @@ public class Hand {
         return false;
     }
 
-	/*public boolean huable(Tile newTile){
-		for(Tile t : ting){
-			if(newTile.index == t.index) return true;
-		}
-		return false;
-	}*/
-
     public ArrayList<Tile> tingable(Tile newTile) {
         boolean takepair = true;
         ArrayList<Tile> noPairTing = new ArrayList<Tile>();
@@ -135,18 +120,15 @@ public class Hand {
 
         ArrayList<Tile> pair = new ArrayList<Tile>();
 
-
         for (ArrayList<Tile> temp : allTiles) {
             for (Tile t : temp) {
                 if (t.getSize() >= 2) pair.add(t);
             }
         }
-        for (int i = 0; i < pair.size() + 1; i++) {
 
-            //System.out.println("Pair:" +pair.get(i));
+        for (int i = 0; i < pair.size() + 1; i++) {
             Hand tempHand = new Hand(allTiles);
 
-            //System.out.println("tempHand_origin:" + tempHand);
             if (i != pair.size()) {
                 tempHand.discard(pair.get(i));
                 tempHand.discard(pair.get(i));
@@ -154,8 +136,8 @@ public class Hand {
                 takepair = false;
             }
 
-            //System.out.println("tempHand:" + tempHand);
             ArrayList<Tile> Triplet = new ArrayList<Tile>();
+
             for (ArrayList<Tile> temp : tempHand.getAll()) {
                 for (Tile t : temp) {
                     if (t.getSize() >= 3) {
@@ -163,15 +145,15 @@ public class Hand {
                     }
                 }
             }
+
             for (Tile t : Triplet) {
                 tempHand.discard(t);
                 tempHand.discard(t);
                 tempHand.discard(t);
             }
 
-
-            //System.out.println("tempHand:" + tempHand);
             ArrayList<Hand> shunTemp = new ArrayList<Hand>();
+
             for (int j = 0; j < 8; j++) {
                 Hand temp = new Hand(tempHand.getAll());
                 temp.takeShun(0, ((j & 0b001) == 0));
@@ -181,7 +163,6 @@ public class Hand {
             }
 
             for (int j = 0; j < 8; j++) {
-                //System.out.println(shunTemp.get(j));
                 ArrayList<ArrayList<Tile>> temp = shunTemp.get(j).getAll();
                 int nLeft = 0;
                 for (int k = 0; k < 3; k++) {
@@ -194,16 +175,12 @@ public class Hand {
                     return null;
                 }
                 ArrayList<Tile> theHope;
-                //System.out.println("nLeft:" + nLeft);
                 if (nLeft <= 2) {
                     theHope = new ArrayList<Tile>();
                     for (ArrayList<Tile> content : temp)
                         theHope.addAll(content);
 
-
-                    //System.out.println("theHope:" + theHope);
                     if (theHope.size() == 2 && takepair == true) {
-                        //System.out.println(theHope.get(0).getSize() + " " + theHope.get(1).getSize());
                         if (theHope.get(0).getSize() == 2 && theHope.get(1).getSize() == 1) {
                             Tile t1 = theHope.get(1).same();
                             Tile t2 = theHope.get(0).same();
@@ -214,7 +191,6 @@ public class Hand {
                             Tile t2 = theHope.get(1).same();
                             if (res.indexOf(t1) < 0) res.add(t1);
                         }
-
                     }
                     if (theHope.size() == 3 && takepair == true) {
                         if (theHope.get(0).getSize() == 1 && theHope.get(1).getSize() == 1 && theHope.get(2).getSize() == 1) {
@@ -229,7 +205,6 @@ public class Hand {
                                 Tile t3 = theHope.get(0).same();
                                 if (res.indexOf(t3) < 0) res.add(t3);
                                 Tile t1 = theHope.get(1).same(-1);
-                                //System.out.println("t1:" + t1);
                                 Tile t2 = theHope.get(2).same(1);
                             }
                         }
@@ -245,23 +220,11 @@ public class Hand {
                     }
 
                 }
-
             }
         }
-        // if(noPairTing.size() > 1){
-
-        // for(Tile t:noPairTing) if(res.indexOf(t) < 0) res.add(t);
-        // }
 
         discard(newTile);
-        //System.out.println("Hand:" + this);
-        //System.out.println("New Tile:" + newTile);
-        //System.out.println("Discard:");
-        //for(Tile temp:res){
-        //	System.out.print(temp + " ");
 
-        //}
-        //System.out.println("");
         return res;
     }
 
@@ -271,7 +234,6 @@ public class Hand {
         if (direction) {
             int s = allTiles.get(suit).size();
             while (i < s - 2) {
-                //System.out.println(i + " " + allTiles.get(suit).size());
                 Tile a = allTiles.get(suit).get(i);
                 Tile b = allTiles.get(suit).get(i + 1);
                 Tile c = allTiles.get(suit).get(i + 2);
@@ -289,7 +251,6 @@ public class Hand {
             int j = 3;
             i = s - j;
             while (i >= 0) {
-                //System.out.println(suit + " " + allTiles.get(suit).size());
                 Tile a = allTiles.get(suit).get(i);
                 Tile b = allTiles.get(suit).get(i + 1);
                 Tile c = allTiles.get(suit).get(i + 2);
