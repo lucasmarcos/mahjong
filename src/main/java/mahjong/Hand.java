@@ -35,18 +35,17 @@ public class Hand {
     }
 
     // If no this tile in hand return false (An error) {Se não, este bloco em mãos retornará falso (um erro)}
-    public boolean discard(Tile n) {
+    public void discard(Tile n) {
         Tile discardTile = n.same();
         discardTile.setSize(1);
         int index = allTiles.get(discardTile.suit).indexOf(discardTile);
-        if (index < 0) return false;
+        if (index < 0) return;
         if (allTiles.get(discardTile.suit).get(index).getSize() > 1) {
             allTiles.get(discardTile.suit).get(index).addSize(-1);
-            return true;
+            return;
         }
         allTiles.get(discardTile.suit).remove(index);
         sort();
-        return true;
     }
 
     // If this old tile is not in hand return false (An error) {Se este bloco antigo não estiver em mãos, retorne falso (um erro)}
