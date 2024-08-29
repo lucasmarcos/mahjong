@@ -1,0 +1,10 @@
+name: build
+on: [ push ]
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          cache: "maven"
+      - run: mvn package
