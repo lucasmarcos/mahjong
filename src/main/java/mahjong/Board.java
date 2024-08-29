@@ -32,7 +32,7 @@ public class Board {
         game = 0;
 
         Shuffler shuffler = new Shuffler();
-        comGUI GUI = new comGUI();
+        ComGUI GUI = new ComGUI();
         Player[] player = new Player[4];
 
         ArrayList<ArrayList<Tile>> allTiles = new ArrayList<ArrayList<Tile>>();// 0萬 1筒 2條 3字 {0 = Dez mil, 1 = cilindro, 2 = faixa, 3 = Personagem}

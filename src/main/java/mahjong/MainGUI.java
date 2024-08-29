@@ -10,7 +10,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class mainGUI extends JFrame {
+class MainGUI extends JFrame {
     public volatile boolean ok;
     public volatile boolean nok;
     public ArrayList<Tile> push;
@@ -75,7 +75,7 @@ class mainGUI extends JFrame {
     /**
      * Create the frame.
      */
-    public mainGUI() {
+    public MainGUI() {
         flipNum = -1;
 
         ok = false;
@@ -93,9 +93,17 @@ class mainGUI extends JFrame {
         numLeftPlayer = 0;
 
         this.setTitle("POOMahjong");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 10, 796, 703);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBounds(0, 0, 800, 750);
         reset();
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Jogo");
+        JMenuItem menuItem = new JMenuItem("Ajuda");
+
+        menuBar.add(menu);
+        menu.add(menuItem);
+        this.setJMenuBar(menuBar);
     }
 
     /**
@@ -210,7 +218,7 @@ class mainGUI extends JFrame {
         else
             filePath += ".png";
 
-        return (new ImageIcon(mainGUI.class.getResource(filePath)));
+        return (new ImageIcon(MainGUI.class.getResource(filePath)));
     }
 
     public void frameOpen() {
@@ -715,7 +723,7 @@ class mainGUI extends JFrame {
 
     public void showThrowTile(boolean throwTile) {
         if (throwTile) {
-            lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
+            lblThrowtile = new JLabel("Jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
             lblThrowtile.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 10)); // Fonte preta da Microsoft
             lblThrowtile.setForeground(Color.RED);
             lblThrowtile.setBounds(31, 23, 70, 35);
