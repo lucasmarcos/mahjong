@@ -634,7 +634,6 @@ class mainGUI extends JFrame {
             dialog.setContentPane(panel);
             panel.setLayout(null);
 
-
             JPanel panel_1 = new JPanel();
             panel_1.setBounds(0, 0, 294, 134);
             panel.add(panel_1);
