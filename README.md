@@ -6,24 +6,21 @@
 
 A Mahjong program implemented in Java.
 
-### Alterações:
+## Alterações:
 
 * **Tradução das mensagens** (Ibanez)
 * **Code Smell: *long parameter list*** (Ibanez)
 
-# Aulas para iniciantes
+## Aulas para iniciantes
 
 ### ABM - Associação Brasileira de Mahjong
 
-<https://www.youtube.com/playlist?list=PLEjuPbC9rfNRW14HVqwfAVZZ-b8uemi-s> (
-Playlist no youtube)
-<https://www.youtube.com/playlist?list=PLEjuPbC9rfNRbQGk47MviTf5Ig-Zpqxyf> (
-Pontuação Completa)
-<https://www.youtube.com/playlist?list=PLEjuPbC9rfNQywSkmkrD79jST5d6BAxgC> (
-Preparação da mesa)
+[Playlist no YouTube](https://www.youtube.com/playlist?list=PLEjuPbC9rfNRW14HVqwfAVZZ-b8uemi-s)
 
-# Como jogar Mahjong
+[Pontuação completa](https://www.youtube.com/playlist?list=PLEjuPbC9rfNRbQGk47MviTf5Ig-Zpqxyf)
 
-### wikiHow
+[Preparação da mesa](https://www.youtube.com/playlist?list=PLEjuPbC9rfNQywSkmkrD79jST5d6BAxgC)
 
-<https://pt.wikihow.com/Jogar-Mahjong> (Com imagens)
+### Como jogar Mahjong
+
+[wikiHow (com imagens)](https://pt.wikihow.com/Jogar-Mahjong) 
