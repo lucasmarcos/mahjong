@@ -25,8 +25,8 @@ public class Hand {
         return allTiles;
     }
 
-    public void add(Tile n) {
-        Tile newTile = n.same();
+    public void add(Tile tile) {
+        Tile newTile = tile.same();
         newTile.setSize(1);
         int index = allTiles.get(newTile.suit).indexOf(newTile);
         if (index >= 0) allTiles.get(newTile.suit).get(index).addSize(1);
