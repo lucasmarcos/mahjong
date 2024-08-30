@@ -70,16 +70,19 @@ public class Board {
                 }
                 player[i].initHand(allTiles);
             }
+
             GUI.showWind(wind, game + 1);
             GUI.renewGUI();
             GUI.showGUI();
 
-            int gameOver = 0;
             int current = (dealer + game) % 4;//看第幾局決定輪到誰做莊，莊家開始，抽牌、決定動作 {Determine de quem é a vez de ser o dealer, dependendo da rodada em que o dealer está. O dealer começa, compra cartas e decide as ações.}
             Tile tile = shuffler.getNext();
             Action action = player[current].doSomething(0, tile);
-            while (gameOver == 0) {
+
+            boolean gameOver = false;
+            while (!gameOver) {
                 System.out.println("DEBUG: " + "wind: " + wind + "game: " + game + player[current] + actionString[action.type] + ".");
+
                 switch (action.type) {//執行動作 {executar a ação}
                     case 0:    //摸 {tocar}
                     case 1:    //吃 {comer}
@@ -89,11 +92,14 @@ public class Board {
                             left[current] -= (action.tiles.size() - 1);
                             GUI.assignHandNum(current + 1, left[current]);
                         }
+
                         for (int i = 1; i < action.tiles.size(); i++) {    //副露 {Vice-exposição}
                             table.get(current + 1).add(action.tiles.get(i));
                         }
+
                         GUI.assignTile(table);
                         GUI.renewGUI();
+
                         tile = action.tiles.getFirst();    //打出來的牌 {cartas jogadas}
                         Action selectAction = null;
                         int selectPlayer = -1;
@@ -110,6 +116,7 @@ public class Board {
                                 selectPlayer = p;
                             } else player[p].failed();
                         }
+
                         if (selectAction != null) {//執行最優先動作, 榮>碰>吃, 設定好動作、玩家後continue跳到該玩家執行動作，未考慮同時榮的情形:p {Execute a ação de maior prioridade, glória> toque> comer, após definir a ação e o jogador, continue saltando para o jogador para realizar a ação, sem considerar a situação de glória simultânea:p}
                             action = selectAction;
                             current = selectPlayer;
@@ -121,6 +128,7 @@ public class Board {
                             current = (current + 1) % 4;
                         }
                         break;
+
                     case 3:    //槓 {bar}
                     case 4:    //加槓 {Adicionar uma barra}
                     case 5:    //暗槓 {barra escondida}
@@ -135,6 +143,7 @@ public class Board {
                         GUI.renewGUI();
                         shuffler.ackKong();
                         break;    //目前玩家補一張，到switch外面抽牌、決定動作 {O jogador atualmente compra uma carta e sai do switch para comprar cartas e decidir ações.}
+
                     case 7:    //榮 {glória}
                     case 8:    //自摸 {Toque-se}
                         printTiles(action.tiles);
@@ -142,7 +151,7 @@ public class Board {
                             game++;
                         }
                         shuffler.permuteIndex();
-                        gameOver = 1;
+                        gameOver = true;
                         if (current > 0)
                             GUI.flipTile(current - 1, action.tiles);
                         for (int i = 0; i < 4; i++) {
@@ -152,26 +161,33 @@ public class Board {
                                 player[i].GameOver(2, (current - i + 4) % 4);    //告知player, current自摸 {Diga ao jogador, a corrente toca nele}
                         }
                         break;
+
                     default:
                         System.out.println("ERROR: " + player[current] + " unknown action " + action.type + ".");
                         System.exit(1);
                 }
-                if (gameOver == 1) break;
+
+                if (gameOver) break;
+
                 tile = shuffler.getNext();//switch外面指的是這裡^^ {A parte externa do switch refere-se aqui ^^}
+
                 if (tile == null) {//流局 {Situação perdida}
-                    gameOver = 1;
+                    gameOver = true;
                     for (int i = 0; i < 4; i++) {
                         player[i].GameOver(0, i);    //告知player流局 {Notifique o jogador sobre a situação}
                     }
                     break;
                 }
+
                 System.out.println("self " + current + " " + tile + " " + tile.getSize());
                 action = player[current].doSomething(0, tile);
             }
+
             if (game == 4) {    //打滿4局，南(?入 {Depois de jogar 4 partidas, Nan (?}
                 wind = wind + 1;
                 game = 0;
             }
+
             if (wind == games) {    //結束 {Terminar}
                 if (GUI.showWind(wind, -1)) {
                     game = 0;
