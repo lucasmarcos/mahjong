@@ -2,15 +2,9 @@ package mahjong;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class Hand {
     private final ArrayList<ArrayList<Tile>> allTiles;
-
-    private final ArrayList<Tile> wan;
-    private final ArrayList<Tile> tong;
-    private final ArrayList<Tile> tiao;
-    private final ArrayList<Tile> zi;
 
     public Hand(ArrayList<ArrayList<Tile>> all) {
         allTiles = new ArrayList<ArrayList<Tile>>();
@@ -19,27 +13,6 @@ public class Hand {
         allTiles.add(new ArrayList<Tile>()); //tong
         allTiles.add(new ArrayList<Tile>()); //tiao
         allTiles.add(new ArrayList<Tile>()); //zi
-
-        wan = new ArrayList<Tile>();
-        tong = new ArrayList<Tile>();
-        tiao = new ArrayList<Tile>();
-        zi = new ArrayList<Tile>();
-
-        for (Tile tile : all.getFirst()) {
-            wan.add(tile.same());
-        }
-
-        for (Tile tile : all.get(1)) {
-            tong.add(tile.same());
-        }
-
-        for (Tile tile : all.get(2)) {
-            tiao.add(tile.same());
-        }
-
-        for (Tile tile : all.get(3)) {
-            zi.add(tile.same());
-        }
 
         for (int i = 0; i < 4; i++) {
             for (Tile temp : all.get(i)) {
@@ -81,6 +54,7 @@ public class Hand {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -276,11 +250,6 @@ public class Hand {
         Collections.sort(allTiles.get(1));
         Collections.sort(allTiles.get(2));
         Collections.sort(allTiles.get(3));
-
-        Collections.sort(wan);
-        Collections.sort(tong);
-        Collections.sort(tiao);
-        Collections.sort(zi);
     }
 
     public String toString() {
