@@ -1,5 +1,6 @@
 package mahjong;
 
+//importações p menu ajuda
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -8,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+//importações p tema personalizavel
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 class MainGUI extends JFrame {
     public volatile boolean ok;
@@ -18,7 +21,6 @@ class MainGUI extends JFrame {
     JButton btnOpen;
     ArrayList<JLabel> table;
     int wind = 0, game = 0;
-    private JPanel contentPane;
     private JPanel myPlayer;
     private JPanel myPlayerOpen;
     private JButton btnClear;
@@ -31,7 +33,6 @@ class MainGUI extends JFrame {
     private JPanel playerRightOpen;
     private JPanel playerLeftOpen;
     private JButton btnReset;
-    private JPanel tablePanel;
     private JToggleButton tglbtnToggleButton;
     private JPanel throwPanel;
     private JLabel lblThrowtile;
@@ -72,6 +73,68 @@ class MainGUI extends JFrame {
     private JPanel xPanel;
     private JDialog xDialog;
 
+    //tema personalizavel
+	private JPanel contentPane;
+	private JPanel tablePanel;
+	private Color currentThemeColor; //variável de instância para armazenar a cor selecionada
+
+
+	// Temas de cores
+    private Color[] themeColors = {
+        new Color(0, 100, 0),    // Verde escuro
+        new Color(50, 50, 50),   // Cinza escuro
+        new Color(100, 100, 255), // Azul claro
+        new Color(255, 228, 181) // Bege claro
+    };
+
+    //menu ajuda
+	public void showHelpDialog() {
+		JDialog helpDialog = new JDialog();
+		helpDialog.setTitle("Ajuda - Mahjong");
+		helpDialog.setModal(true);
+		helpDialog.setSize(400, 300);
+		helpDialog.setLocationRelativeTo(this);
+
+		JPanel helpPanel = new JPanel();
+		helpPanel.setLayout(new BorderLayout());
+
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+
+		// Adicionando explicações sobre regras e dicas gerais
+		String helpText = "Regras e Dicas do Mahjong:\n\n" +
+			"1. **Combinações Básicas:**\n" +
+			"   - **Sequência (Chow):** Três peças consecutivas do mesmo naipe.\n" +
+			"   - **Par (Pong):** Três peças iguais do mesmo tipo.\n" +
+			"   - **Barra (Kong):** Quatro peças iguais do mesmo tipo.\n" +
+			"   - **Ouvir (Meld):** Formar uma combinação de peças para ganhar o jogo.\n" +
+			"   - **Hu (Vitória):** Completar uma mão com as combinações necessárias.\n\n" +
+			"2. **Dicas Gerais:**\n" +
+			"   - **Mantenha as Peças:** Foque em manter peças que podem formar combinações futuras.\n" +
+			"   - **Estratégia de Descarte:** Descarte peças que são menos úteis ou duplicadas.\n" +
+			"   - **Observe os Adversários:** Fique atento às peças descartadas pelos oponentes.\n" +
+			"   - **Planejamento:** Tente antecipar as combinações possíveis e ajuste sua mão de acordo.\n";
+
+		textArea.setText(helpText);
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		helpPanel.add(scrollPane, BorderLayout.CENTER);
+
+		JButton closeButton = new JButton("Fechar");
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				helpDialog.dispose();
+			}
+		});
+		helpPanel.add(closeButton, BorderLayout.SOUTH);
+
+		helpDialog.add(helpPanel);
+		helpDialog.setVisible(true);
+	}
+
+
     /**
      * Create the frame.
      */
@@ -93,17 +156,13 @@ class MainGUI extends JFrame {
         numLeftPlayer = 0;
 
         this.setTitle("POOMahjong");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0, 0, 800, 750);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 10, 796, 703);
+
+        // Inicializa a cor padrão do tema
+		currentThemeColor = themeColors[0]; // Verde escuro
+
         reset();
-
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Jogo");
-        JMenuItem menuItem = new JMenuItem("Ajuda");
-
-        menuBar.add(menu);
-        menu.add(menuItem);
-        this.setJMenuBar(menuBar);
     }
 
     /**
@@ -114,6 +173,10 @@ class MainGUI extends JFrame {
     }
 
     public void renew() {
+        //if para reaplicação de cor
+		if (currentThemeColor != null) {
+			tablePanel.setBackground(currentThemeColor);
+		}
         contentPane.revalidate();
         contentPane.repaint();
     }
@@ -148,7 +211,8 @@ class MainGUI extends JFrame {
         JButton rdbtnNewRadioButton = new JButton(name);
         rdbtnNewRadioButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Arrays.fill(choice, false);
+                for (int i = 0; i < choice.length; i++)
+                    choice[i] = false;
                 choice[index] = true;
 
                 doChoice(choice, panel);
@@ -217,6 +281,12 @@ class MainGUI extends JFrame {
             filePath += "_fall.png";
         else
             filePath += ".png";
+
+        /*
+        System.out.println(filePath);
+        System.out.println(getClass().getResourceAsStream(filePath));
+		System.out.println(mainGUI.class.getResource(filePath));
+        */
 
         return (new ImageIcon(MainGUI.class.getResource(filePath)));
     }
@@ -295,8 +365,8 @@ class MainGUI extends JFrame {
             false,
             false
         };
-
         setSelect(b);
+
     }
 
     public void createButtonGroup(JPanel panel) {
@@ -321,15 +391,16 @@ class MainGUI extends JFrame {
             false,
             false
         };
-
         setSelect(b);
+
     }
 
     public JRadioButton addRadioButton(JPanel panel, String name, int index, boolean[] choice) {
         JRadioButton rdbtnNewRadioButton = new JRadioButton(name);
         rdbtnNewRadioButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent arg0) {
-                Arrays.fill(choice, false);
+                for (int i = 0; i < choice.length; i++)
+                    choice[i] = false;
                 choice[index] = true;
             }
         });
@@ -352,10 +423,33 @@ class MainGUI extends JFrame {
         table = new ArrayList<JLabel>();
 
         tablePanel = new JPanel();
-        tablePanel.setBackground(new Color(0, 100, 0));
-        tablePanel.setBounds(137, 114, 499, 435);
+        tablePanel.setBackground(currentThemeColor); // A cor é armazenada aqui
         contentPane.add(tablePanel);
+        tablePanel.setBounds(137, 114, 499, 435);
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+        // Verifica se uma cor foi selecionada e a aplica
+        if (currentThemeColor != null) {
+            tablePanel.setBackground(currentThemeColor);
+            } else {
+            tablePanel.setBackground(new Color(0, 100, 0)); // Cor padrão
+            }
+
+             // ComboBox para selecionar o tema
+             String[] themeOptions = {"Verde Escuro", "Cinza Escuro", "Azul Claro", "Bege Claro"};
+             JComboBox<String> themeSelector = new JComboBox<>(themeOptions);
+             themeSelector.setBounds(10, 10, 120, 30);
+             themeSelector.addActionListener(new ActionListener() {
+                 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     int selectedIndex = themeSelector.getSelectedIndex();
+                     currentThemeColor = themeColors[selectedIndex]; // Armazena a cor selecionada
+                     tablePanel.setBackground(themeColors[selectedIndex]);
+                     tablePanel.revalidate();
+                     tablePanel.repaint();
+                 }
+             });
+             contentPane.add(themeSelector);
 
         myPlayer = new JPanel();
         myPlayer.setBounds(137, 611, 499, 42);
@@ -401,6 +495,7 @@ class MainGUI extends JFrame {
         contentPane.add(windPanel);
         windPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
+
         //lblWindgame = new JLabel("AAA");
         lblWindgame.setForeground(Color.DARK_GRAY);
         lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
@@ -411,6 +506,18 @@ class MainGUI extends JFrame {
         refreshAllContent();
         contentPane.revalidate();
         contentPane.repaint();
+
+        //botao menu ajuda
+        JButton btnHelp = new JButton("Ajuda");
+        btnHelp.setBounds(650, 650, 120, 30);
+        btnHelp.addActionListener(new ActionListener() {
+    @Override
+        public void actionPerformed(ActionEvent e) {
+        showHelpDialog();
+    }
+});
+contentPane.add(btnHelp);
+
     }
 
     public void hu(int type, int from) {
@@ -421,10 +528,12 @@ class MainGUI extends JFrame {
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.setBounds(100, 100, 310, 221);
 
+
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         panel.setLayout(null);
         dialog.setContentPane(panel);
+
 
         JPanel panel_1 = new JPanel();
         panel_1.setBounds(0, 0, 294, 134);
@@ -642,6 +751,7 @@ class MainGUI extends JFrame {
             dialog.setContentPane(panel);
             panel.setLayout(null);
 
+
             JPanel panel_1 = new JPanel();
             panel_1.setBounds(0, 0, 294, 134);
             panel.add(panel_1);
@@ -723,7 +833,7 @@ class MainGUI extends JFrame {
 
     public void showThrowTile(boolean throwTile) {
         if (throwTile) {
-            lblThrowtile = new JLabel("Jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
+            lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
             lblThrowtile.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 10)); // Fonte preta da Microsoft
             lblThrowtile.setForeground(Color.RED);
             lblThrowtile.setBounds(31, 23, 70, 35);
