@@ -12,35 +12,26 @@ public class ComGUI {
     public MainGUI frame;
     public PlayerGUI player;
     private int numRightPlayer, numUpPlayer, numLeftPlayer;
-    private int numRightPlayerExposedKong, numUpPlayerExposedKong, numLeftPlayerExposedKong;
     private ArrayList<Tile> rightPlayerOpen;
     private ArrayList<Tile> upPlayerOpen;
     private ArrayList<Tile> leftPlayerOpen;
     private ArrayList<Tile> myPlayerOpen;
     private ArrayList<Tile> table;
     private ArrayList<Tile> myPlayerHand;
-    private ArrayList<Tile> rightPlayerHand;
-    private ArrayList<Tile> upPlayerHand;
-    private ArrayList<Tile> leftPlayerHand;
 
     public ComGUI() {
         numLeftPlayer = 0;
         numRightPlayer = 0;
         numUpPlayer = 0;
 
-        leftPlayerOpen = new ArrayList<Tile>();
-        upPlayerOpen = new ArrayList<Tile>();
-        rightPlayerOpen = new ArrayList<Tile>();
-        myPlayerOpen = new ArrayList<Tile>();
-        myPlayerHand = new ArrayList<Tile>();
-        table = new ArrayList<Tile>();
-
-        leftPlayerHand = new ArrayList<Tile>();
-        upPlayerHand = new ArrayList<Tile>();
-        rightPlayerHand = new ArrayList<Tile>();
+        leftPlayerOpen = new ArrayList<>();
+        upPlayerOpen = new ArrayList<>();
+        rightPlayerOpen = new ArrayList<>();
+        myPlayerOpen = new ArrayList<>();
+        myPlayerHand = new ArrayList<>();
+        table = new ArrayList<>();
 
         frame = new MainGUI();
-        //player = new comGUI.PlayerGUI("A");
     }
 
     public void initPlayerGUI(String name, int score, ComGUI _c) {
@@ -49,7 +40,7 @@ public class ComGUI {
     }
 
     public void renewGUI() {
-        ArrayList<ArrayList<Tile>> temp = new ArrayList<ArrayList<Tile>>();
+        ArrayList<ArrayList<Tile>> temp = new ArrayList<>();
         temp.add(table);
         temp.add(myPlayerOpen);
         temp.add(rightPlayerOpen);
@@ -74,63 +65,35 @@ public class ComGUI {
         leftPlayerOpen = allTile.get(leftPlayerIndex);
         upPlayerOpen = allTile.get(upPlayerIndex);
         myPlayerOpen = allTile.get(myPlayerOpenIndex);
-
-        //myPlayerHand = allTile.get(myPlayerHandIndex);
         myPlayerHand = player.myHand;
     }
 
-    public void assignTile(int which, ArrayList<Tile> allTile) {
-        if (which == tableIndex)
-            table = allTile;
-        else if (which == rightPlayerIndex)
-            rightPlayerOpen = allTile;
-        else if (which == leftPlayerIndex)
-            leftPlayerOpen = allTile;
-        else if (which == upPlayerIndex)
-            upPlayerOpen = allTile;
-        else if (which == myPlayerOpenIndex)
-            myPlayerOpen = allTile;
-        //else
-        //myPlayerHand = allTile;
-    }
-
     public void assignHandNum(int which, int num) {
-        if (which == rightPlayerIndex)
+        if (which == rightPlayerIndex) {
             numRightPlayer = num;
-        else if (which == leftPlayerIndex)
+        } else if (which == leftPlayerIndex) {
             numLeftPlayer = num;
-        else
+        } else {
             numUpPlayer = num;
-    }
-
-    public void assignHandNum(int[] num) {
-        numRightPlayer = num[0];
-        numUpPlayer = num[1];
-        numLeftPlayer = num[2];
-    }
-
-    public void assignExposedKongNum(int which, int num) {
-        if (which == rightPlayerIndex)
-            numRightPlayerExposedKong = num;
-        else if (which == leftPlayerIndex)
-            numLeftPlayerExposedKong = num;
-        else
-            numUpPlayerExposedKong = num;
+        }
     }
 
     public void flipTile(int index, ArrayList<Tile> tile) {
-        ArrayList<Tile> temp = new ArrayList<Tile>();
-        for (Tile t : tile)
+        ArrayList<Tile> temp = new ArrayList<>();
+
+        for (Tile t : tile) {
             for (int i = 0; i < t.getSize(); i++) {
                 temp.add(new Tile(t.index));
             }
+        }
 
-        if (index == 0)
+        if (index == 0) {
             frame.setFlip(index, temp);
-        else if (index == 1)
+        } else if (index == 1) {
             frame.setFlip(index, temp);
-        else if (index == 2)
+        } else if (index == 2) {
             frame.setFlip(index, temp);
+        }
 
         renewGUI();
     }
