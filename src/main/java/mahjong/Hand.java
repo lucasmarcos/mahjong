@@ -2,17 +2,44 @@ package mahjong;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Hand {
     private final ArrayList<ArrayList<Tile>> allTiles;
 
+    private final ArrayList<Tile> wan;
+    private final ArrayList<Tile> tong;
+    private final ArrayList<Tile> tiao;
+    private final ArrayList<Tile> zi;
+
     public Hand(ArrayList<ArrayList<Tile>> all) {
         allTiles = new ArrayList<ArrayList<Tile>>();
 
-        allTiles.add(new ArrayList<Tile>());    //wan
-        allTiles.add(new ArrayList<Tile>());    //tong
-        allTiles.add(new ArrayList<Tile>());    //tiao
-        allTiles.add(new ArrayList<Tile>());    //zi
+        allTiles.add(new ArrayList<Tile>()); //wan
+        allTiles.add(new ArrayList<Tile>()); //tong
+        allTiles.add(new ArrayList<Tile>()); //tiao
+        allTiles.add(new ArrayList<Tile>()); //zi
+
+        wan = new ArrayList<Tile>();
+        tong = new ArrayList<Tile>();
+        tiao = new ArrayList<Tile>();
+        zi = new ArrayList<Tile>();
+
+        for (Tile tile : all.getFirst()) {
+            wan.add(tile.same());
+        }
+
+        for (Tile tile : all.get(1)) {
+            tong.add(tile.same());
+        }
+
+        for (Tile tile : all.get(2)) {
+            tiao.add(tile.same());
+        }
+
+        for (Tile tile : all.get(3)) {
+            zi.add(tile.same());
+        }
 
         for (int i = 0; i < 4; i++) {
             for (Tile temp : all.get(i)) {
@@ -35,8 +62,8 @@ public class Hand {
     }
 
     // If no this tile in hand return false (An error) {Se não, este bloco em mãos retornará falso (um erro)}
-    public void discard(Tile n) {
-        Tile discardTile = n.same();
+    public void discard(Tile tile) {
+        Tile discardTile = tile.same();
         discardTile.setSize(1);
         int index = allTiles.get(discardTile.suit).indexOf(discardTile);
         if (index < 0) return;
@@ -46,26 +73,6 @@ public class Hand {
         }
         allTiles.get(discardTile.suit).remove(index);
         sort();
-    }
-
-    // If this old tile is not in hand return false (An error) {Se este bloco antigo não estiver em mãos, retorne falso (um erro)}
-    public boolean replace(Tile n, Tile o) {
-        Tile oldTile = o.same();
-        oldTile.setSize(1);
-        Tile newTile = n.same();
-        newTile.setSize(1);
-        int oldIndex = allTiles.get(oldTile.suit).indexOf(oldTile);
-        if (oldIndex < 0) return false;
-        if (allTiles.get(oldTile.suit).get(oldIndex).getSize() > 1)
-            allTiles.get(oldTile.suit).get(oldIndex).addSize(-1);
-        else allTiles.get(oldTile.suit).remove(oldIndex);
-
-        int newIndex = allTiles.get(newTile.suit).indexOf(newTile);
-
-        if (newIndex >= 0) allTiles.get(newTile.suit).get(newIndex).addSize(1);
-        else allTiles.get(newTile.suit).add(newTile);
-        sort();
-        return true;
     }
 
     public boolean pongable(Tile newTile) {
@@ -269,6 +276,11 @@ public class Hand {
         Collections.sort(allTiles.get(1));
         Collections.sort(allTiles.get(2));
         Collections.sort(allTiles.get(3));
+
+        Collections.sort(wan);
+        Collections.sort(tong);
+        Collections.sort(tiao);
+        Collections.sort(zi);
     }
 
     public String toString() {
