@@ -11,7 +11,7 @@ public class PlayerGUI extends Player {
     private boolean[] choice;
     private int action;
 
-    private MainGUI frame;
+    private final MainGUI frame;
 
     public PlayerGUI(String name, int score, MainGUI frame) {
         super(name, score);
