@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PlayerGUI extends Player {
-    public ArrayList<Tile> myHand = new ArrayList<Tile>();
+    public ArrayList<Tile> myHand;
+
     private ComGUI c;
     private ArrayList<Tile> discardTile;
     private ArrayList<Tile> pushTile;
@@ -33,7 +34,6 @@ public class PlayerGUI extends Player {
     @Override
     public void initHand(ArrayList<ArrayList<Tile>> allTiles) {
         frame.setFlip(-1, new ArrayList<Tile>());
-        //myHand = new ArrayList<Tile>();
         hand = new Hand(allTiles);
         getHand();
     }
@@ -42,19 +42,17 @@ public class PlayerGUI extends Player {
         frame.resetChoice();
         action = -1;
 
-        //boolean[] b;
-        //private Hand hand;
         Tile newTile = tile.same();
         doSelect(from, newTile);
 
-        //frame.changeEnable(false);
-        if (action == -1)
+        if (action == -1) {
             return null;
+        }
+
         return new Action(action, discardTile);
     }
 
     private void doSelect(int from, Tile newTile) {
-        //boolean[] b = {true, true, true, true, true};
         boolean[] b = {false, false, false, false, false}; /*可做 吃, 碰, 槓, 聽, 胡*/ //{Pode comer, tocar, tocar, ouvir, bagunçar}
 
         int tempType = hand.chowable(newTile);
@@ -70,24 +68,15 @@ public class PlayerGUI extends Player {
 
         b[2] = hand.kongable(newTile);
 
-        if (temp == null)
+        if (temp == null) {
             b[4] = true;
-        else if (temp.size() != 0 && from == 0) {
-            //b[3] = true;
         }
 
         if (from == 0) {
-            //myHand.add(tile);
             hand.add(newTile);
         }
         frame.setThrower(from, newTile);
-			/*System.out.println("AAA " + from +" "+ newTile);
-			for(int i = 0 ; i < 5; i++)
-				if(b[i])
-					System.out.println("Choice " + i);*/
-        //b[0] = true;
-        //tempType = 7;
-        //frame.setChowOption(tempType, getChewChoice(tempType, newTile));
+
         if (b[0] || b[1] || b[2] || b[3] || b[4]) {
             frame.setSelect(b);
             EventQueue.invokeLater(new Runnable() {
@@ -107,31 +96,16 @@ public class PlayerGUI extends Player {
     }
 
     private void waitOK() {
-        while (frame.ok == false) {
-        }
+        while (frame.ok == false) {}
+
         pushTile = new ArrayList<Tile>();
+
         for (Tile t : frame.push)
             pushTile.add(t.same());
 
-			/*for(int i = 0; i < 6; i++)
-				if(choice[i])
-					System.out.println(i);*/
-			/*for(Tile t : frame.push)
-				System.out.println(t);*/
         frame.ok = false;
         frame.push = new ArrayList<Tile>();
-        //frame.changeEnable(false);
     }
-		/*private boolean remove(Tile t)
-		{
-			boolean b = false;
-			for(Tile temp : myHand)
-				if(temp.equals(t)){
-					myHand.remove(temp);
-					b = true;
-				}
-			return b;
-		}*/
 
     private void selectProcess(int chewType, Tile newTile, int from) {
         discardTile = new ArrayList<Tile>();
@@ -169,13 +143,12 @@ public class PlayerGUI extends Player {
                 hand.add(newTile);
             }
             getHand();
-            //discardTile.set(0, myHand.get(0));
+
             discardTile.remove(0);
+
             for (int i = 0; i < myHand.size(); i++)
                 discardTile.add(myHand.get(i));
 
-				/*for(int i = 0; i < discardTile.size(); i++)
-					hand.discard(discardTile.get(i));*/
             return;
         } else {
             if (from == 0)
@@ -188,13 +161,13 @@ public class PlayerGUI extends Player {
 
         for (int i = 1; i < discardTile.size() - 1; i++)
             hand.discard(discardTile.get(i));
+
         c.renewGUI();
 
         if (choice[2]) {
             discardTile.remove(0);
         } else {
             frame.showThrowTile(true);
-            //frame.changeEnable(true);
             waitOK();
             discardTile.set(0, pushTile.get(0));
             hand.discard(discardTile.get(0));
@@ -255,26 +228,6 @@ public class PlayerGUI extends Player {
     }
 
     public void GameOver(int type, int from) {
-			/*if(action == 7 || action == 8){
-				frame.hu(type, from);
-			}
-			else
-				frame.hu(false);*/
         frame.hu(type, from);
     }
-
-		/*public boolean doDraw(Tile tile, ArrayList<ArrayList<Tile>> currentTable)
-		{
-			newTile = tile.same();
-			doSelect(newTile);
-			return true;
-		}*/
-		/*public boolean doChow(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return choice[0];}
-		public boolean doPong(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return choice[1];}
-		public boolean doKong(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return choice[2];}
-		public boolean doReach(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return choice[3];}
-		public boolean doHu(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return choice[4];}*/
-
-    //public Tile replace(Tile tile, ArrayList<ArrayList<Tile>> currentTable){return new Tile(0);}
-    //public Tile kong(ArrayList<ArrayList<Tile>> currentTable){return new Tile(0);}
 }
