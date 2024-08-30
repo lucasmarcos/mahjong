@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
     private JPanel throwPanel;
     private JLabel lblThrowtile;
     private JPanel windPanel;
-    private JLabel lblWindgame = new JLabel();
+    private JLabel lblWindgame;
     private ArrayList<Tile> rightPlayerOpenTile;
     private ArrayList<Tile> upPlayerOpenTile;
     private ArrayList<Tile> leftPlayerOpenTile;
@@ -161,6 +161,18 @@ public class MainGUI extends JFrame {
 
         // Inicializa a cor padrão do tema
 		currentThemeColor = themeColors[0]; // Verde escuro
+
+        lblWindgame = new JLabel();
+        lblWindgame.setForeground(Color.DARK_GRAY);
+        lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
+        lblWindgame.setHorizontalAlignment(SwingConstants.CENTER);
+        lblWindgame.setBounds(21, 20, 85, 40);
+
+        lblThrowtile = new JLabel();
+        lblThrowtile.setFont(
+            lblThrowtile.getFont().deriveFont(Font.BOLD | Font.ITALIC)
+        );
+        lblThrowtile.setForeground(Color.RED);
 
         reset();
     }
@@ -422,7 +434,6 @@ public class MainGUI extends JFrame {
     public void reset() {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
         contentPane.setLayout(null);
 
         table = new ArrayList<JLabel>();
@@ -490,39 +501,33 @@ public class MainGUI extends JFrame {
         playerLeftOpen.setBounds(71, 62, 56, 499);
         contentPane.add(playerLeftOpen);
 
-        throwPanel = new JPanel();
-        throwPanel.setBounds(646, 571, 124, 84);
+        throwPanel = new JPanel(new BorderLayout());
+        throwPanel.setBounds(646, 550, 200, 84);
+        throwPanel.add(lblThrowtile, BorderLayout.CENTER);
         contentPane.add(throwPanel);
-        throwPanel.setLayout(null);
 
         windPanel = new JPanel();
         windPanel.setBounds(5, 571, 124, 82);
-        contentPane.add(windPanel);
-        windPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-
-        //lblWindgame = new JLabel("AAA");
-        lblWindgame.setForeground(Color.DARK_GRAY);
-        lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
-        lblWindgame.setHorizontalAlignment(SwingConstants.CENTER);
-        lblWindgame.setBounds(21, 20, 85, 40);
         windPanel.add(lblWindgame);
-
-        refreshAllContent();
-        contentPane.revalidate();
-        contentPane.repaint();
+        windPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        contentPane.add(windPanel);
 
         //botao menu ajuda
         JButton btnHelp = new JButton("Ajuda");
         btnHelp.setBounds(650, 650, 120, 30);
         btnHelp.addActionListener(new ActionListener() {
-    @Override
-        public void actionPerformed(ActionEvent e) {
-        showHelpDialog();
-    }
-});
-contentPane.add(btnHelp);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showHelpDialog();
+            }
+        });
+        contentPane.add(btnHelp);
 
+        refreshAllContent();
+
+        setContentPane(contentPane);
+        contentPane.revalidate();
+        contentPane.repaint();
     }
 
     public void hu(int type, int from) {
@@ -756,7 +761,6 @@ contentPane.add(btnHelp);
             dialog.setContentPane(panel);
             panel.setLayout(null);
 
-
             JPanel panel_1 = new JPanel();
             panel_1.setBounds(0, 0, 294, 134);
             panel.add(panel_1);
@@ -838,13 +842,9 @@ contentPane.add(btnHelp);
 
     public void showThrowTile(boolean throwTile) {
         if (throwTile) {
-            lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
-            lblThrowtile.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 10)); // Fonte preta da Microsoft
-            lblThrowtile.setForeground(Color.RED);
-            lblThrowtile.setBounds(31, 23, 70, 35);
-            throwPanel.add(lblThrowtile);
+            lblThrowtile.setText("Seu turno");
         } else {
-            removeLabel(throwPanel, lblThrowtile);
+            lblThrowtile.setText("Turno de outro jogador");
         }
     }
 
