@@ -2,7 +2,7 @@ package mahjong;
 
 import java.util.ArrayList;
 
-class ComGUI {
+public class ComGUI {
     public static final int tableIndex = 0;
     public static final int myPlayerOpenIndex = 1;
     public static final int rightPlayerIndex = 2;

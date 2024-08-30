@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainGUI extends JFrame {
+public class MainGUI extends JFrame {
     public volatile boolean ok;
     public volatile boolean nok;
     public ArrayList<Tile> push;
