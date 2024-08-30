@@ -263,32 +263,37 @@ class MainGUI extends JFrame {
 
     public ImageIcon decideIcon(int suit, int value, boolean fall) {
         String filePath = "/icon";
-        if (value == 0)
+
+        if (value == 0) {
             filePath += "/cover";
-        else if (suit == 0)
+        } else if (suit == 0) {
             filePath += "/character_" + value;
-        else if (suit == 1)
+        } else if (suit == 1) {
             filePath += "/dot_" + value;
-        else if (suit == 2)
+        } else if (suit == 2) {
             filePath += "/bamboo_" + value;
-        else if (suit == 3) {
-            if (value < 5)
+        } else if (suit == 3) {
+            if (value < 5) {
                 filePath += "/wind_" + value;
-            else
+            } else {
                 filePath += "/dragon_" + (value % 4);
+            }
         }
-        if (fall)
+
+        if (fall) {
             filePath += "_fall.png";
-        else
+        } else {
             filePath += ".png";
+        }
 
-        /*
-        System.out.println(filePath);
-        System.out.println(getClass().getResourceAsStream(filePath));
-		System.out.println(mainGUI.class.getResource(filePath));
-        */
+        var resource = MainGUI.class.getResource(filePath);
 
-        return (new ImageIcon(MainGUI.class.getResource(filePath)));
+        if (resource == null) {
+            System.out.println("Failed to find resource: " + filePath);
+            return (new ImageIcon());
+        } else {
+            return (new ImageIcon(resource));
+        }
     }
 
     public void frameOpen() {
