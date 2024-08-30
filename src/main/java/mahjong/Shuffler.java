@@ -4,11 +4,9 @@ public class Shuffler {
     public int[] index;
     public int count = 0;
     private int left = 14;
-    Shuffler() {
+
+    public Shuffler() {
         setSize(136);
-    }
-    Shuffler(int N) {
-        setSize(N);
     }
 
     public void setSize(int N) {
