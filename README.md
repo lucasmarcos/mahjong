@@ -1,6 +1,6 @@
 # Mahjong
 
-<img src="/src/pic/pic2-2.png" title="Mahjong" width="600px" height="600px">
+<img src="bin/pic/pic2-2.png" title="Mahjong" width="600px" height="600px">
 
 ## Introduction
 
