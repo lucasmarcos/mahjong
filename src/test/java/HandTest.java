@@ -1,0 +1,26 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import mahjong.Hand;
+
+import mahjong.Tile;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+class HandTest {
+    @Test
+    void all() {
+        var list = new ArrayList<ArrayList<Tile>>();
+
+        list.add(new ArrayList<Tile>());
+        list.add(new ArrayList<Tile>());
+        list.add(new ArrayList<Tile>());
+        list.add(new ArrayList<Tile>());
+
+        var hand = new Hand(list);
+
+        var all = hand.getAll();
+
+        assertEquals(all, list);
+    }
+}
