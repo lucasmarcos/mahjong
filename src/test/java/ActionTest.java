@@ -9,12 +9,12 @@ class ActionTest {
     @Test
     void actionsType() {
         var actions = new Action(0, new ArrayList<>());
-        assertEquals(0, actions.type);
+        assertEquals(0, actions.type());
     }
 
     @Test
     void actionsTiles() {
         var actions = new Action(0, new ArrayList<>());
-        assertEquals(new ArrayList<>(), actions.tiles);
+        assertEquals(new ArrayList<>(), actions.tiles());
     }
 }
