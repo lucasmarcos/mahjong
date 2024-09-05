@@ -6,5 +6,7 @@ import mahjong.AI;
 class AITest {
     @Test
     void ai() {
+        var ai = new AI("ai0", 0);
+        assertEquals(0, ai.getScore());
     }
 }
