@@ -390,8 +390,8 @@ public class AI extends Player {
     public void failed() {
         if (exposed > 0)
             exposed--;
-        for (int i = 0; i < prevAct.tiles.size(); i++)
-            hand.add(prevAct.tiles.get(i));
+        for (int i = 0; i < prevAct.tiles().size(); i++)
+            hand.add(prevAct.tiles().get(i));
         hand.discard(prevTile);
     }
 
