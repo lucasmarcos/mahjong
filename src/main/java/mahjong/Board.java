@@ -66,7 +66,7 @@ public class Board {
             " game: " +
             game +
             players[current] +
-            actionString[action.type] +
+            actionString[action.type()] +
             "."
         );
     }
@@ -113,7 +113,7 @@ public class Board {
     }
 
     private static int handlePlayerAction(int current, Action action) {
-        switch (action.type) {
+        switch (action.type()) {
             case 0:
             case 1:
             case 2:
@@ -131,7 +131,7 @@ public class Board {
                     "ERROR: " +
                     players[current] +
                     " unknown action " +
-                    action.type +
+                    action.type() +
                     "."
                 );
                 System.exit(1);
@@ -141,17 +141,17 @@ public class Board {
 
     private static int handleStandardAction(int current, Action action) {
         if (current > 0) {
-            left[current] -= (action.tiles.size() - 1);
+            left[current] -= (action.tiles().size() - 1);
             GUI.assignHandNum(current + 1, left[current]);
         }
 
-        for (int i = 1; i < action.tiles.size(); i++) {
-            table.get(current + 1).add(action.tiles.get(i));
+        for (int i = 1; i < action.tiles().size(); i++) {
+            table.get(current + 1).add(action.tiles().get(i));
         }
 
         GUI.assignTile(table);
         GUI.renewGUI();
-        Tile tile = action.tiles.get(0);
+        Tile tile = action.tiles().get(0);
         int selectPlayer = findNextActionPlayer(current, tile);
 
         if (selectPlayer != -1) {
@@ -166,11 +166,11 @@ public class Board {
 
     private static int handleKongAction(int current, Action action) {
         if (current > 0) {
-            left[current] -= action.tiles.size();
+            left[current] -= action.tiles().size();
             GUI.assignHandNum(current + 1, left[current]);
         }
 
-        for (Tile tile : action.tiles) {
+        for (Tile tile : action.tiles()) {
             table.get(current + 1).add(tile);
         }
 
@@ -181,7 +181,7 @@ public class Board {
     }
 
     private static int handleGameOverAction(int current, Action action) {
-        printTiles(action.tiles);
+        printTiles(action.tiles());
 
         if (current != (dealer + game) % 4) {
             game++;
@@ -189,12 +189,12 @@ public class Board {
 
         shuffler.permuteIndex();
         if (current > 0) {
-            GUI.flipTile(current - 1, action.tiles);
+            GUI.flipTile(current - 1, action.tiles());
         }
 
         for (int i = 0; i < 4; i++) {
             players[i].GameOver(
-                    action.type == 7 ? 1 : 2,
+                    action.type() == 7 ? 1 : 2,
                     (current - i + 4) % 4
                 );
         }
@@ -237,8 +237,8 @@ public class Board {
 
             if (action == null) continue;
 
-            System.out.println(p + " " + actionString[action.type]);
-            if (selectPlayer == -1 || action.type > selectAction.type) {
+            System.out.println(p + " " + actionString[action.type()]);
+            if (selectPlayer == -1 || action.type() > selectAction.type()) {
                 if (selectPlayer != -1) players[selectPlayer].failed();
                 selectAction = action;
                 selectPlayer = p;
