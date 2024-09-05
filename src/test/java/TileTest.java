@@ -47,4 +47,35 @@ class TileTest {
         var res = tile.compareTo(tileSame);
         assertEquals(0, res);
     }
+
+    @Test
+    void getSize() {
+        var tile = new Tile(0);
+        var res = tile.getSize();
+        assertEquals(1, res);
+    }
+
+    @Test
+    void setSize() {
+        var tile = new Tile(0);
+        tile.setSize(1);
+        var res = tile.getSize();
+        assertEquals(1, res);
+    }
+
+    @Test
+    void addSize() {
+        var tile = new Tile(0);
+        tile.addSize(1);
+        var res = tile.getSize();
+        assertEquals(2, res);
+    }
+
+    @Test
+    void equals() {
+    }
+
+    @Test
+    void sameInt() {
+    }
 }
