@@ -1,11 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import mahjong.Hand;
-
-import mahjong.Tile;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import mahjong.Hand;
+import mahjong.Tile;
 
 class HandTest {
     @Test
