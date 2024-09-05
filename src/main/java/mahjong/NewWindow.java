@@ -8,7 +8,8 @@ public class NewWindow extends JFrame {
 
         addMenu();
 
-        this.setSize(640 * 2, 360 * 2);
+        var scale = 4;
+        this.setSize(320 * scale, 180 * scale);
         this.setVisible(true);
     }
 
