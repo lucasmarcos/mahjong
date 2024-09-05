@@ -17,7 +17,7 @@ public class ComGUI {
     private ArrayList<Tile> leftPlayerOpen;
     private ArrayList<Tile> myPlayerOpen;
     private ArrayList<Tile> table;
-    private ArrayList<Tile> myPlayerHand;
+    // private ArrayList<Tile> myPlayerHand;
 
     public ComGUI() {
         numLeftPlayer = 0;
@@ -28,7 +28,7 @@ public class ComGUI {
         upPlayerOpen = new ArrayList<>();
         rightPlayerOpen = new ArrayList<>();
         myPlayerOpen = new ArrayList<>();
-        myPlayerHand = new ArrayList<>();
+        // myPlayerHand = new ArrayList<>();
         table = new ArrayList<>();
 
         frame = new MainGUI();
@@ -65,7 +65,7 @@ public class ComGUI {
         leftPlayerOpen = allTile.get(leftPlayerIndex);
         upPlayerOpen = allTile.get(upPlayerIndex);
         myPlayerOpen = allTile.get(myPlayerOpenIndex);
-        myPlayerHand = player.myHand;
+        // myPlayerHand = player.myHand;
     }
 
     public void assignHandNum(int which, int num) {

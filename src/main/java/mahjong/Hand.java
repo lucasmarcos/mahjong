@@ -161,12 +161,12 @@ public class Hand {
                     if (theHope.size() == 2 && takepair == true) {
                         if (theHope.get(0).getSize() == 2 && theHope.get(1).getSize() == 1) {
                             Tile t1 = theHope.get(1).same();
-                            Tile t2 = theHope.get(0).same();
+                            // Tile t2 = theHope.get(0).same();
                             if (res.indexOf(t1) < 0) res.add(t1);
                         }
                         if (theHope.get(0).getSize() == 1 && theHope.get(1).getSize() == 2) {
                             Tile t1 = theHope.get(0).same();
-                            Tile t2 = theHope.get(1).same();
+                            // Tile t2 = theHope.get(1).same();
                             if (res.indexOf(t1) < 0) res.add(t1);
                         }
                     }
@@ -175,15 +175,14 @@ public class Hand {
                             if (theHope.get(0).index + 1 == theHope.get(1).index && theHope.get(0).suit == theHope.get(1).suit && theHope.get(0).suit != 3) {
                                 Tile t3 = theHope.get(2).same();
                                 if (res.indexOf(t3) < 0) res.add(t3);
-                                Tile t1 = theHope.get(0).same(-1);
-                                Tile t2 = theHope.get(1).same(1);
-
+                                // Tile t1 = theHope.get(0).same(-1);
+                                // Tile t2 = theHope.get(1).same(1);
                             }
                             if (theHope.get(1).index + 1 == theHope.get(2).index && theHope.get(1).suit == theHope.get(2).suit && theHope.get(1).suit != 3) {
                                 Tile t3 = theHope.get(0).same();
                                 if (res.indexOf(t3) < 0) res.add(t3);
-                                Tile t1 = theHope.get(1).same(-1);
-                                Tile t2 = theHope.get(2).same(1);
+                                // Tile t1 = theHope.get(1).same(-1);
+                                // Tile t2 = theHope.get(2).same(1);
                             }
                         }
                     }
