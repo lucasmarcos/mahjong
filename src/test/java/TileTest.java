@@ -20,9 +20,7 @@ class TileTest {
     void compareEq() {
         var tile1 = new Tile(0);
         var tile2 = new Tile(0);
-
         var res = tile1.compareTo(tile2);
-
         assertEquals(0, res);
     }
 
@@ -30,9 +28,7 @@ class TileTest {
     void compareDiff1() {
         var tile1 = new Tile(0);
         var tile2 = new Tile(1);
-
         var res = tile1.compareTo(tile2);
-
         assertEquals(-1, res);
     }
 
@@ -40,9 +36,15 @@ class TileTest {
     void compareDiff2() {
         var tile1 = new Tile(1);
         var tile2 = new Tile(0);
-
         var res = tile1.compareTo(tile2);
-
         assertEquals(1, res);
+    }
+
+    @Test
+    void same() {
+        var tile = new Tile(0);
+        var tileSame = tile.same();
+        var res = tile.compareTo(tileSame);
+        assertEquals(0, res);
     }
 }
