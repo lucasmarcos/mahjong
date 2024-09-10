@@ -76,11 +76,11 @@ public class Board {
     private static void initGame() {
         shuffler = new Shuffler();
         GUI = new ComGUI();
-        GUI.initPlayerGUI("PlayerGUI", initScore, GUI);
+        GUI.initPlayerGUI("PlayerGUI", GUI);
         players[0] = GUI.player;
 
         for (int i = 1; i < 4; i++) {
-            players[i] = new AI("PlayerAI" + i, initScore);
+            players[i] = new AI("PlayerAI" + i);
         }
 
         for (int i = 0; i < 4; i++) {

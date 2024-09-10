@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public abstract class Player {
     protected Hand hand;
-    private String name;
+    private final String name;
     private int score;
 
-    public Player(String s, int i) {
-        name = s;
-        score = i;
+    public Player(String name, int score) {
+        this.name = name;
+        this.score = score;
     }
 
     @Override

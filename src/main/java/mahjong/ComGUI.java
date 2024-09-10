@@ -34,8 +34,8 @@ public class ComGUI {
         frame = new MainGUI();
     }
 
-    public void initPlayerGUI(String name, int score, ComGUI _c) {
-        player = new PlayerGUI(name, score, frame);
+    public void initPlayerGUI(String name, ComGUI _c) {
+        player = new PlayerGUI(name, frame);
         player.setCom(_c);
     }
 
