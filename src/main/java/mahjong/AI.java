@@ -22,8 +22,9 @@ public class AI extends Player {
     private Tile prevTile;
     private Action prevAct;
 
-    public AI(String name, int score) {
-        super(name, score);
+    public AI(String name) {
+        super(name);
+
         exposed = 0;
         status = Status.FREE;
         prevTile = null;

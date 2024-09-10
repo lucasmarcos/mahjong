@@ -14,8 +14,9 @@ public class PlayerGUI extends Player {
 
     private final MainGUI frame;
 
-    public PlayerGUI(String name, int score, MainGUI frame) {
-        super(name, score);
+    public PlayerGUI(String name, MainGUI frame) {
+        super(name);
+
         myHand = new ArrayList<Tile>();
         this.frame = frame;
     }
