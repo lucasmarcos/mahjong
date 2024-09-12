@@ -5,11 +5,9 @@ import java.util.ArrayList;
 public abstract class Player {
     protected Hand hand;
     private final String name;
-    private int score;
 
-    public Player(String name, int score) {
+    public Player(String name) {
         this.name = name;
-        this.score = score;
     }
 
     @Override
@@ -36,13 +34,5 @@ public abstract class Player {
 
     public abstract void failed();//上一個動作失敗了 {A ação anterior falhou}
 
-    public void addScore(int s) {
-        score += s;
-    }
-
     public abstract void GameOver(int type, int from);//type 0流局 1榮 2自摸 from 0自摸 1下一家 2對家 3上一家 {tipo 0 jogo de fluxo 1 honra 2 autotoque de 0 autotoque 1 próxima família 2 pares família 3 família anterior}
-
-    public int getScore() {
-        return this.score;
-    }
 }
