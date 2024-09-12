@@ -1,13 +1,32 @@
 package mahjong;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 class mainGUI extends JFrame {
     public volatile boolean ok;
@@ -17,7 +36,6 @@ class mainGUI extends JFrame {
     JButton btnOpen;
     ArrayList<JLabel> table;
     int wind = 0, game = 0;
-    private JPanel contentPane;
     private JPanel myPlayer;
     private JPanel myPlayerOpen;
     private JButton btnClear;
@@ -30,7 +48,6 @@ class mainGUI extends JFrame {
     private JPanel playerRightOpen;
     private JPanel playerLeftOpen;
     private JButton btnReset;
-    private JPanel tablePanel;
     private JToggleButton tglbtnToggleButton;
     private JPanel throwPanel;
     private JLabel lblThrowtile;
@@ -70,6 +87,20 @@ class mainGUI extends JFrame {
     // Alteração Ibanez
     private JPanel xPanel;
     private JDialog xDialog;
+
+    //tema personalizavel
+	private JPanel contentPane;
+	private JPanel tablePanel;
+	private Color currentThemeColor; //variável de instância para armazenar a cor selecionada
+
+
+	// Temas de cores
+    private Color[] themeColors = {
+        new Color(0, 100, 0),    // Verde escuro
+        new Color(50, 50, 50),   // Cinza escuro
+        new Color(100, 100, 255), // Azul claro
+        new Color(255, 165, 0) // Laranja claro
+    };
 
     //menu ajuda 
 	public void showHelpDialog() {
@@ -142,6 +173,10 @@ class mainGUI extends JFrame {
         this.setTitle("POOMahjong");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 10, 796, 703);
+
+        // Inicializa a cor padrão do tema
+		currentThemeColor = themeColors[0]; // Verde escuro
+
         reset();
     }
 
@@ -153,6 +188,10 @@ class mainGUI extends JFrame {
     }
 
     public void renew() {
+        //if para reaplicação de cor
+		if (currentThemeColor != null) {
+			tablePanel.setBackground(currentThemeColor);
+		}
         contentPane.revalidate();
         contentPane.repaint();
     }
@@ -273,7 +312,7 @@ class mainGUI extends JFrame {
             flag |= select[i];
         if (flag) {
             JDialog dialog = new JDialog();
-            dialog.setTitle("Por favor escolha"); //請選擇 - Por favor escolha
+            dialog.setTitle("Por favor escolha:"); //請選擇 - Por favor escolha
             dialog.setModal(true);
             dialog.setAlwaysOnTop(true);
             dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
@@ -295,13 +334,13 @@ class mainGUI extends JFrame {
             panel.add(panel_2);
             panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            String s = "Você tocou"; // Você tocou 你摸了
+            String s = "Você tocou!"; // Você tocou 你摸了
             if (thrower == 1)
-                s = "Seu próximo está derrotado"; // Seu próximo está derrotado 你的下家打了
+                s = "Seu próximo está derrotado!"; // Seu próximo está derrotado 你的下家打了
             else if (thrower == 2)
-                s = "Seu oponente acertou"; // Seu oponente acertou 你的對家打了
+                s = "Seu oponente acertou!"; // Seu oponente acertou 你的對家打了
             else if (thrower == 3)
-                s = "Sua última família foi espancada"; // Sua última família foi espancada 你的上家打了
+                s = "Sua última família foi espancada!"; // Sua última família foi espancada 你的上家打了
             panel_2.add(new JLabel(s));
             addLabel(panel_2, newTile.suit, newTile.value + 1, false);
 
@@ -322,13 +361,13 @@ class mainGUI extends JFrame {
         // Mudança 02
 
         if (select[0])
-            group.add(addButton("comer", 0)); // comer 吃
+            group.add(addButton("Comer", 0)); // comer 吃
         if (select[1])
-            group.add(addButton("ressalto", 1)); // ressalto 碰
+            group.add(addButton("Ressalto", 1)); // ressalto 碰
         if (select[2])
-            group.add(addButton("barra", 2)); // barra 槓
+            group.add(addButton("Barra", 2)); // barra 槓
         if (select[3])
-            group.add(addButton("ouvir", 3)); // ouvir 聽
+            group.add(addButton("Ouvir", 3)); // ouvir 聽
         if (select[4])
             group.add(addButton("Hu", 4)); // Hu 胡
 
@@ -348,17 +387,17 @@ class mainGUI extends JFrame {
     public void createButtonGroup(JPanel panel) {
         ButtonGroup group = new ButtonGroup();
         if (select[0])
-            group.add(addRadioButton(panel, "comer", 0, choice)); // comer 吃
+            group.add(addRadioButton(panel, "Comer", 0, choice)); // comer 吃
         if (select[1])
-            group.add(addRadioButton(panel, "ressalto", 1, choice)); // ressalto 碰
+            group.add(addRadioButton(panel, "Ressalto", 1, choice)); // ressalto 碰
         if (select[2])
-            group.add(addRadioButton(panel, "barra", 2, choice)); // barra 槓
+            group.add(addRadioButton(panel, "Barra", 2, choice)); // barra 槓
         if (select[3])
-            group.add(addRadioButton(panel, "ouvir", 3, choice)); // ouvir 聽
+            group.add(addRadioButton(panel, "Ouvir", 3, choice)); // ouvir 聽
         if (select[4])
             group.add(addRadioButton(panel, "Hu", 4, choice)); // Hu 胡
 
-        group.add(addRadioButton(panel, "não quero", 5, choice)); // não quero 不要
+        group.add(addRadioButton(panel, "Não quero", 5, choice)); // não quero 不要
 
         boolean[] b = {
             false,
@@ -399,10 +438,33 @@ class mainGUI extends JFrame {
         table = new ArrayList<JLabel>();
 
         tablePanel = new JPanel();
-        tablePanel.setBackground(new Color(0, 100, 0));
-        tablePanel.setBounds(137, 114, 499, 435);
+        tablePanel.setBackground(currentThemeColor); // A cor é armazenada aqui        
         contentPane.add(tablePanel);
+        tablePanel.setBounds(137, 114, 499, 435);
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+        // Verifica se uma cor foi selecionada e a aplica
+        if (currentThemeColor != null) {
+            tablePanel.setBackground(currentThemeColor);
+            } else {
+            tablePanel.setBackground(new Color(0, 100, 0)); // Cor padrão
+            }		
+            
+             // ComboBox para selecionar o tema
+             String[] themeOptions = {"Verde Escuro", "Cinza Escuro", "Azul Claro", "Laranja Claro"};
+             JComboBox<String> themeSelector = new JComboBox<>(themeOptions);
+             themeSelector.setBounds(10, 10, 120, 30);
+             themeSelector.addActionListener(new ActionListener() {
+                 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     int selectedIndex = themeSelector.getSelectedIndex();
+                     currentThemeColor = themeColors[selectedIndex]; // Armazena a cor selecionada
+                     tablePanel.setBackground(themeColors[selectedIndex]);
+                     tablePanel.revalidate();
+                     tablePanel.repaint();
+                 }
+             });
+             contentPane.add(themeSelector);
 
         myPlayer = new JPanel();
         myPlayer.setBounds(137, 611, 499, 42);
@@ -495,16 +557,16 @@ contentPane.add(btnHelp);
 
         String s = "";
         if (type == 0) {
-            s = "Perdido!"; // Perdido! 流局!
+            s = "<html>Perdido!<br>\""; // Perdido! 流局!
         } else {
             if (from == 0)
-                s = "você"; // você 你
+                s = "<html>Você!<br>"; // você 你
             else if (from == 1)
-                s = "sua próxima casa"; // sua próxima casa 你的下家
+                s = "<html>Sua próxima casa!<br>"; // sua próxima casa 你的下家
             else if (from == 2)
-                s = "seu oponente"; // seu oponente 你的對家
+                s = "<html>Seu oponente!<br>"; // seu oponente 你的對家
             else
-                s = "Sua última família"; // Sua última família 你的上家
+                s = "<html>Sua última família!<br>"; // Sua última família 你的上家
 
             if (type == 1)
                 s += "Orgulhoso!"; // Orgulhoso! 榮了!
@@ -518,7 +580,7 @@ contentPane.add(btnHelp);
         panel.add(panel_2);
         panel_2.setLayout(null);
 
-        JButton button = new JButton("confirme"); // confirme 確認
+        JButton button = new JButton("Confirme"); // confirme 確認
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 reset();
@@ -585,20 +647,32 @@ contentPane.add(btnHelp);
 
     public void refreshAllContent() {
         clear();
-        if (flipNum == 0)
-            for (int i = 0; i < rightPlayerHandTile.size(); i++)
-                addLabel(playerRight, rightPlayerHandTile.get(i).suit, rightPlayerHandTile.get(i).value + 1, true);
-        else {
-            for (int i = 0; i < numRightPlayer; i++)
-                addLabel(playerRight, 0, 0, true);
+
+        // Variáveis extraídas para melhorar a clareza
+        int rightPlayerTileSize = (flipNum == 0) ? rightPlayerHandTile.size() : numRightPlayer;
+        int upPlayerTileSize = (flipNum == 1) ? upPlayerHandTile.size() : numUpPlayer;
+            
+        if (flipNum == 0) {
+        for (int i = 0; i < rightPlayerTileSize; i++) {
+            Tile tile = rightPlayerHandTile.get(i);
+            addLabel(playerRight, tile.suit, tile.value + 1, true);
         }
-        if (flipNum == 1) {
-            for (int i = 0; i < upPlayerHandTile.size(); i++)
-                addLabel(playerUp, upPlayerHandTile.get(i).suit, upPlayerHandTile.get(i).value + 1, false);
-        } else {
-            for (int i = 0; i < numUpPlayer; i++)
-                addLabel(playerUp, 0, 0, false);
+    } else {
+        for (int i = 0; i < rightPlayerTileSize; i++) {
+            addLabel(playerRight, 0, 0, true);
         }
+    }
+
+    if (flipNum == 1) {
+        for (int i = 0; i < upPlayerTileSize; i++) {
+            Tile tile = upPlayerHandTile.get(i);
+            addLabel(playerUp, tile.suit, tile.value + 1, false);
+        }
+    } else {
+        for (int i = 0; i < upPlayerTileSize; i++) {
+            addLabel(playerUp, 0, 0, false);
+        }
+    }
         if (flipNum == 2) {
             for (int i = 0; i < leftPlayerHandTile.size(); i++)
                 addLabel(playerLeft, leftPlayerHandTile.get(i).suit, leftPlayerHandTile.get(i).value + 1, true);
@@ -660,7 +734,7 @@ contentPane.add(btnHelp);
         panel.add(panel_2);
         panel_2.setLayout(null);
 
-        JButton button = new JButton("confirme"); // confirme 確認
+        JButton button = new JButton("Confirme"); // confirme 確認
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 dialog.dispose();
@@ -744,7 +818,7 @@ contentPane.add(btnHelp);
             panel.add(panel_2);
             panel_2.setLayout(null);
 
-            JButton button = new JButton("confirme"); // confirme 確認
+            JButton button = new JButton("Confirme"); // confirme 確認
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     if (cChoice[0] || cChoice[1] || cChoice[2]) {
