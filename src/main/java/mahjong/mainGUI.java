@@ -71,6 +71,54 @@ class mainGUI extends JFrame {
     private JPanel xPanel;
     private JDialog xDialog;
 
+    //menu ajuda 
+	public void showHelpDialog() {
+		JDialog helpDialog = new JDialog();
+		helpDialog.setTitle("Ajuda - Mahjong");
+		helpDialog.setModal(true);
+		helpDialog.setSize(400, 300);
+		helpDialog.setLocationRelativeTo(this);
+	
+		JPanel helpPanel = new JPanel();
+		helpPanel.setLayout(new BorderLayout());
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		
+		// Adicionando explicações sobre regras e dicas gerais
+		String helpText = "Regras e Dicas do Mahjong:\n\n" +
+			"1. **Combinações Básicas:**\n" +
+			"   - **Sequência (Chow):** Três peças consecutivas do mesmo naipe.\n" +
+			"   - **Par (Pong):** Três peças iguais do mesmo tipo.\n" +
+			"   - **Barra (Kong):** Quatro peças iguais do mesmo tipo.\n" +
+			"   - **Ouvir (Meld):** Formar uma combinação de peças para ganhar o jogo.\n" +
+			"   - **Hu (Vitória):** Completar uma mão com as combinações necessárias.\n\n" +
+			"2. **Dicas Gerais:**\n" +
+			"   - **Mantenha as Peças:** Foque em manter peças que podem formar combinações futuras.\n" +
+			"   - **Estratégia de Descarte:** Descarte peças que são menos úteis ou duplicadas.\n" +
+			"   - **Observe os Adversários:** Fique atento às peças descartadas pelos oponentes.\n" +
+			"   - **Planejamento:** Tente antecipar as combinações possíveis e ajuste sua mão de acordo.\n";
+		
+		textArea.setText(helpText);
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		helpPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		JButton closeButton = new JButton("Fechar");
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				helpDialog.dispose();
+			}
+		});
+		helpPanel.add(closeButton, BorderLayout.SOUTH);
+		
+		helpDialog.add(helpPanel);
+		helpDialog.setVisible(true);
+	}
+	
+
     /**
      * Create the frame.
      */
@@ -411,6 +459,18 @@ class mainGUI extends JFrame {
         refreshAllContent();
         contentPane.revalidate();
         contentPane.repaint();
+        
+        //botao menu ajuda
+        JButton btnHelp = new JButton("Ajuda");
+        btnHelp.setBounds(650, 650, 120, 30);
+        btnHelp.addActionListener(new ActionListener() {
+    @Override
+        public void actionPerformed(ActionEvent e) {
+        showHelpDialog();
+    }
+});
+contentPane.add(btnHelp);
+
     }
 
     public void hu(int type, int from) {
