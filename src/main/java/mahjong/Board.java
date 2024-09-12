@@ -2,6 +2,7 @@ package mahjong;
 
 import java.util.ArrayList;
 
+
 public class Board {
     public static final int initScore = 25000;
     public static final int games = 1;
@@ -27,7 +28,8 @@ public class Board {
     private static int[] left = { 0, 0, 0, 0 };
 
     ///
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
+
         initGame(); // Inicializa o jogo (configurações, variáveis, etc.)
 
         while (true) { // Loop principal do jogo
@@ -38,6 +40,7 @@ public class Board {
             // ou se a condição de fim de jogo ('endGameConditionMet') for satisfeita, o loop termina e o jogo acaba.
         }
     }
+
 
     private static boolean playRound() {
         int gameOver = 0; // Variável para checar se o jogo acabou
@@ -73,7 +76,7 @@ public class Board {
 
     ///
 
-    private static void initGame() {
+    private static void initGame() throws InterruptedException  {
         shuffler = new Shuffler();
         GUI = new ComGUI();
         GUI.initPlayerGUI("PlayerGUI", GUI);

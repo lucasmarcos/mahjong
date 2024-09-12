@@ -2,7 +2,11 @@ package mahjong;
 
 import java.util.ArrayList;
 
-public class ComGUI {
+import javax.swing.*;
+
+public class ComGUI extends JFrame{
+    public boolean start = false;
+    public JPanel panel;
     public static final int tableIndex = 0;
     public static final int myPlayerOpenIndex = 1;
     public static final int rightPlayerIndex = 2;
@@ -19,7 +23,7 @@ public class ComGUI {
     private ArrayList<Tile> table;
     // private ArrayList<Tile> myPlayerHand;
 
-    public ComGUI() {
+    public ComGUI() throws InterruptedException{
         numLeftPlayer = 0;
         numRightPlayer = 0;
         numUpPlayer = 0;
@@ -31,8 +35,10 @@ public class ComGUI {
         // myPlayerHand = new ArrayList<>();
         table = new ArrayList<>();
 
+        
         frame = new MainGUI();
     }
+
 
     public void initPlayerGUI(String name, ComGUI _c) {
         player = new PlayerGUI(name, frame);

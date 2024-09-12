@@ -10,10 +10,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 //importações p tema personalizavel
-// import java.awt.event.ActionListener;
-// import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.awt.event.ActionEvent;
+import java.util.concurrent.CountDownLatch;
 
 public class MainGUI extends JFrame {
+    public boolean start = false;
     public volatile boolean ok;
     public volatile boolean nok;
     public ArrayList<Tile> push;
@@ -45,6 +47,9 @@ public class MainGUI extends JFrame {
     private ArrayList<Tile> tableTile;
     private ArrayList<Tile> myPlayerHandTile;
     private int numRightPlayer, numUpPlayer, numLeftPlayer;
+    public static ImageIcon backgroundImage = new ImageIcon("../../../../Mahjong.jpeg");
+
+    private static CountDownLatch latch = new CountDownLatch(1);
     private boolean[] choice = {
         false,
         false,
@@ -138,7 +143,7 @@ public class MainGUI extends JFrame {
     /**
      * Create the frame.
      */
-    public MainGUI() {
+    public MainGUI() throws InterruptedException {
         flipNum = -1;
 
         ok = false;
@@ -161,6 +166,48 @@ public class MainGUI extends JFrame {
 
         // Inicializa a cor padrão do tema
 		currentThemeColor = themeColors[0]; // Verde escuro
+
+        setSize(800, 750);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        
+        panel.setLayout(new BorderLayout());
+
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setOpaque(false);
+
+        JButton button = new JButton("Jogar");
+        button.setBackground(Color.WHITE);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setPreferredSize(new Dimension(100, 30));;
+
+        button.addActionListener((ActionListener) new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("O jogo começou!");
+                latch.countDown();
+            }
+        });
+
+
+        buttonPanel.add(button);
+
+        panel.add(buttonPanel, BorderLayout.CENTER);
+
+        add(panel);
+
+        setVisible(true);
+
+        latch.await();
 
         lblWindgame = new JLabel();
         lblWindgame.setForeground(Color.DARK_GRAY);
@@ -274,7 +321,7 @@ public class MainGUI extends JFrame {
     }
 
     public ImageIcon decideIcon(int suit, int value, boolean fall) {
-        String filePath = "/icon";
+        String filePath = "../../resources/icon";
 
         if (value == 0) {
             filePath += "/cover";
