@@ -196,7 +196,7 @@ public class Board {
         }
 
         for (int i = 0; i < 4; i++) {
-            players[i].GameOver(
+            players[i].gameOver(
                     action.type() == 7 ? 1 : 2,
                     (current - i + 4) % 4
                 );
@@ -207,7 +207,7 @@ public class Board {
 
     private static int handleDrawSituation() {
         for (int i = 0; i < 4; i++) {
-            players[i].GameOver(0, i); // Notifica sobre a situação de empate
+            players[i].gameOver(0, i); // Notifica sobre a situação de empate
         }
         return 1;
     }

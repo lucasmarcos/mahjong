@@ -228,7 +228,7 @@ public class PlayerGUI extends Player {
         }
     }
 
-    public void GameOver(int type, int from) {
+    public void gameOver(int type, int from) {
         frame.hu(type, from);
     }
 }

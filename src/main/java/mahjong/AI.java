@@ -2,6 +2,7 @@ package mahjong;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 enum Status {
     FREE, RICHI, WIN

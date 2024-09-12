@@ -2,8 +2,8 @@ package mahjong;
 
 import javax.swing.*;
 
-public class NewWindow extends JFrame {
-    public NewWindow() {
+public class Tutorial extends JFrame {
+    public Tutorial() {
         this.setTitle("Mahjong");
 
         addMenu();
