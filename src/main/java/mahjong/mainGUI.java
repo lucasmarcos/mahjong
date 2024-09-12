@@ -10,8 +10,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 //importações p tema personalizavel
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
+// import java.awt.event.ActionEvent;
 
 public class MainGUI extends JFrame {
     public volatile boolean ok;
@@ -23,17 +23,17 @@ public class MainGUI extends JFrame {
     int wind = 0, game = 0;
     private JPanel myPlayer;
     private JPanel myPlayerOpen;
-    private JButton btnClear;
-    private JButton btnDisable;
-    private JButton button_1;
+    // private JButton btnClear;
+    // private JButton btnDisable;
+    // private JButton button_1;
     private JPanel playerRight;
     private JPanel playerLeft;
     private JPanel playerUpOpen;
     private JPanel playerUp;
     private JPanel playerRightOpen;
     private JPanel playerLeftOpen;
-    private JButton btnReset;
-    private JToggleButton tglbtnToggleButton;
+    // private JButton btnReset;
+    // private JToggleButton tglbtnToggleButton;
     private JPanel throwPanel;
     private JLabel lblThrowtile;
     private JPanel windPanel;
@@ -60,7 +60,7 @@ public class MainGUI extends JFrame {
         false,
         false
     }; /*you can choose 吃 碰 槓 聽 胡*/ // Coma, toque e ouça
-    private int chowOption;
+    // private int chowOption;
     private ArrayList<ArrayList<Tile>> chewChoice;
     private int flipNum;
     private ArrayList<Tile> rightPlayerHandTile;
@@ -738,7 +738,7 @@ public class MainGUI extends JFrame {
     }
 
     public void setChowOption(int flag, ArrayList<ArrayList<Tile>> _chewChoice) {
-        chowOption = flag;
+        // chowOption = flag;
         chewChoice = _chewChoice;
     }
 
