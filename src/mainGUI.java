@@ -2,7 +2,13 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Component;
 import java.awt.Container;
+import java.io.File;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.swing.plaf.ToolTipUI;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -34,6 +40,8 @@ import java.awt.Dialog;
 
 import java.util.ArrayList;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.SwingConstants;
 
 class mainGUI extends JFrame {
@@ -90,6 +98,11 @@ class mainGUI extends JFrame {
 	public volatile boolean nok;
 	public ArrayList<Tile> push;
 	public boolean restart;
+
+	// Alteração Ibanez
+
+	private JPanel xPanel;
+	private JDialog xDialog;
 	
 	/**
 	 * Launch the application.
@@ -119,13 +132,40 @@ class mainGUI extends JFrame {
 		numUpPlayer = 0;
 		numLeftPlayer = 0;
 		
+		this.setTitle("Mahjong");
 		
-		this.setTitle("POOMahjong");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 10, 796, 703);
+		setBounds(375, 10, 796, 703);
+		//setResizable(false);
 		reset();
 	}
+
+	//Mudança William - Subclasse para definir a imagem da mesa
+	public class CustomTablePanel extends JPanel {
+		private BufferedImage backgroundImage;
 	
+		// Construtor para carregar a imagem
+		public CustomTablePanel(String imagePath) {
+			try {
+				backgroundImage = ImageIO.read(new File(imagePath));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// Define o layout do painel
+			setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		}
+	
+		// Sobrescreve o paintComponent para desenhar a imagem de fundo
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			if (backgroundImage != null) {
+				// Desenha a imagem dimensionada ao tamanho do painel
+				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+			}
+		}
+	}
+
 	public void renew()
 	{
 		contentPane.revalidate();
@@ -149,14 +189,26 @@ class mainGUI extends JFrame {
 		button.setIcon(decideIcon(suit, value, false));
 		button.setSelectedIcon(decideIcon(0, 0, false));
 		button.setPreferredSize(new java.awt.Dimension(30, 37));
+
+		final String toolTipText = getToolTipText(suit, value);
+
+			button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent mEvt){
+            button.setToolTipText(toolTipText);
+			}
+		});
+
 		panel.add(button);
 	}
 	public void addButton(int suit, int value)
 	{
 		addButton(myPlayer, tablePanel, suit, value);
 	}
-	public JButton addButton(JPanel panel, String name, int index, boolean[] choice, JDialog dialog)
+	public JButton addButton(String name, int index)
 	{
+		JPanel panel = this.getPanel();
+		JDialog dialog = this.getDialog();
 		JButton rdbtnNewRadioButton = new JButton(name);
 		rdbtnNewRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -208,8 +260,75 @@ class mainGUI extends JFrame {
 			label.setPreferredSize(new java.awt.Dimension(37, 30));
 		else
 			label.setPreferredSize(new java.awt.Dimension(30, 37));
+			
+
+			//Variável para receber os valores de descrição
+			final String toolTipText = getToolTipText(suit, value);
+			//Algoritmo para mostrar a descrição quando o mouse estiver sobrepondo a peça
+			label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent mEvt){
+            label.setToolTipText(toolTipText);
+        }
+    });
+
 		panel.add(label);
 	}
+
+	// Mudança William - Método para armazenar a descrição da peça
+	public String getToolTipText(int suit, int value) {
+		String toolTipText = "";
+	
+		if (suit == 0) {
+			if(value == 0){
+				toolTipText = "";
+			}else{
+			toolTipText = "Character " + value;
+			}
+		} else if (suit == 1) {
+			toolTipText = "Dot " + value;
+		} else if (suit == 2) {
+			toolTipText = "Bamboo " + value;
+		} else if (suit == 3) {
+			if (value < 5) {
+				switch (value) {
+					case 1:
+						toolTipText = "East Wind";
+						break;
+					case 2:
+						toolTipText = "South Wind";
+						break;
+					case 3:
+						toolTipText = "West Wind";
+						break;
+					case 4:
+						toolTipText = "North Wind";
+						break;
+					default:
+						toolTipText = "";
+						break;
+				}
+			} else {
+				switch (value % 4) {
+					case 1:
+						toolTipText = "Red Dragon";
+						break;
+					case 2:
+						toolTipText = "Green Dragon";
+						break;
+					case 3:
+						toolTipText = "White Dragon";
+						break;
+					default:
+						toolTipText = "";
+						break;
+				}
+			}
+		}
+	
+		return toolTipText;
+	}
+
 	public ImageIcon decideIcon(int suit, int value, boolean fall)
 	{
 		String filePath = "./icon";
@@ -222,8 +341,9 @@ class mainGUI extends JFrame {
 		else if(suit == 2)
 			filePath += "/bamboo_" + value;
 		else if(suit == 3){
-			if(value < 5)
+			if(value < 5){
 				filePath += "/wind_" + value;
+			}
 			else
 				filePath += "/dragon_" + (value % 4);
 		}
@@ -273,6 +393,9 @@ class mainGUI extends JFrame {
 			panel_2.add(new JLabel(s));
 			addLabel(panel_2, newTile.suit, newTile.value+1, false);
 			
+			// Mudança 01
+
+			
 			createButton(panel_1, dialog);
 			dialog.setVisible (true);
 		}
@@ -280,19 +403,25 @@ class mainGUI extends JFrame {
 	
 	public void createButton(JPanel panel, JDialog dialog)
 	{
-		ButtonGroup group = new ButtonGroup();
-		if(select[0])
-			group.add(addButton(panel, "comer", 0, choice, dialog)); // comer 吃
-		if(select[1])
-			group.add(addButton(panel, "ressalto", 1, choice, dialog)); // ressalto 碰
-		if(select[2])
-			group.add(addButton(panel, "barra", 2, choice, dialog)); // barra 槓
-		if(select[3])
-			group.add(addButton(panel, "ouvir", 3, choice, dialog)); // ouvir 聽
-		if(select[4])
-			group.add(addButton(panel, "Hu", 4, choice, dialog)); // Hu 胡
+		this.setPanel(panel);
+		this.setDialog(dialog);
 		
-		group.add(addButton(panel, "Não quero", 5, choice, dialog)); // não quero 不要
+		ButtonGroup group = new ButtonGroup();
+			
+		// Mudança 02
+
+		if(select[0])
+			group.add(addButton("comer", 0)); // comer 吃
+		if(select[1])
+			group.add(addButton("ressalto", 1)); // ressalto 碰
+		if(select[2])
+			group.add(addButton("barra", 2)); // barra 槓
+		if(select[3])
+			group.add(addButton("ouvir", 3)); // ouvir 聽
+		if(select[4])
+			group.add(addButton("Hu", 4)); // Hu 胡
+		
+		group.add(addButton("Não quero", 5)); // não quero 不要
 		
 		boolean[] b = {false, false, false, false, false};
 		setSelect(b);
@@ -349,9 +478,9 @@ class mainGUI extends JFrame {
 		
 		table = new ArrayList<JLabel>();
 		
-		tablePanel = new JPanel();
-		tablePanel.setBackground(new Color(0, 100, 0));
+		tablePanel = new CustomTablePanel("src/pic/table_mahjong.png");
 		tablePanel.setBounds(137, 114, 499, 435);
+		
 		contentPane.add(tablePanel);
 		tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
@@ -359,7 +488,7 @@ class mainGUI extends JFrame {
 		myPlayer.setBounds(137, 611, 499, 42);
 		contentPane.add(myPlayer);
 		myPlayer.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
+
 		myPlayerOpen = new JPanel();
 		myPlayerOpen.setBounds(137, 559, 499, 42);
 		contentPane.add(myPlayerOpen);
@@ -402,7 +531,7 @@ class mainGUI extends JFrame {
 
 		//lblWindgame = new JLabel("AAA");
 		lblWindgame.setForeground(Color.DARK_GRAY);
-		lblWindgame.setFont(new Font("微軟正黑體", Font.PLAIN, 24)); // Fonte preta da Microsoft
+		lblWindgame.setFont(new Font("Verdana", Font.PLAIN, 10)); // Fonte preta da Microsoft
 		lblWindgame.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWindgame.setBounds(21, 20, 85, 40);
 		windPanel.add(lblWindgame);
@@ -732,7 +861,7 @@ class mainGUI extends JFrame {
 	{
 		if(throwTile){
 			lblThrowtile = new JLabel("Por favor, jogue suas cartas"); // Por favor, jogue suas cartas 請出牌
-			lblThrowtile.setFont(new Font("微軟正黑體", Font.BOLD | Font.ITALIC, 18)); // Fonte preta da Microsoft
+			lblThrowtile.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 10)); // Fonte preta da Microsoft
 			lblThrowtile.setForeground(Color.RED);
 			lblThrowtile.setBounds(31, 23, 70, 35);
 			throwPanel.add(lblThrowtile);
@@ -764,9 +893,27 @@ class mainGUI extends JFrame {
 			throwPanel.repaint();
 		}
 		else{
-			s = windString[wind] + game + " escritório"; // escritório {局}
+			s = windString[wind] + " " + game + " escritório"; // escritório {局}
 		}
 		lblWindgame.setText(s);
+	}
+
+	// Metodos Genericos
+	
+	private JDialog getDialog() {
+		return this.xDialog;
+	}
+
+	private void setDialog(JDialog wDialog) {
+		this.xDialog = wDialog;
+	}
+	
+	private JPanel getPanel() {
+		return this.xPanel;
+	}
+
+	private void setPanel(JPanel wPanel) {
+		this.xPanel = wPanel;
 	}
 	
 }

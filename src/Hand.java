@@ -47,7 +47,7 @@ public class Hand {
 		sort();
 	}
 	
-	public boolean discard(Tile n){ //If no this tile in hand return false (An error)
+	public boolean discard(Tile n){ //If no this tile in hand return false (An error) {Se não, este bloco em mãos retornará falso (um erro)}
 		Tile discardTile = n.same();
 		discardTile.setSize(1);
 		int index = allTiles.get(discardTile.suit).indexOf(discardTile);
@@ -61,7 +61,7 @@ public class Hand {
 		return true;
 	}
 
-	public boolean replace(Tile n, Tile o){ //If this old tile is not in hand return false (An error)
+	public boolean replace(Tile n, Tile o){ //If this old tile is not in hand return false (An error) {Se este bloco antigo não estiver em mãos, retorne falso (um erro)}
 		Tile oldTile = o.same();
 		oldTile.setSize(1);
 		Tile newTile = n.same();

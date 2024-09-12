@@ -28,200 +28,184 @@ public class AI extends Player{
 		prevAct = null ;
 	}
 
-	//ask the player whether to draw/chow/pong/kong/reach/hu or not
-	private boolean doChow(Tile tile){
-		if( hand.chowable(tile) == 0 )
-			return false ;
-	
-		Hand tmp = new Hand(hand.getAll()) ;
-		tmp.add(tile) ;
-		Collections.sort(tmp.getAll().get(tile.suit));
+	//Mudança William - Método para unificação da Remoção dos Shuns
 
-		/* remove all shuns in the hand */
-		int i = 0 ;
-		int s = tmp.getAll().get(tile.suit).size() ;
-		while(i < s - 2){
-			Tile a = tmp.getAll().get(tile.suit).get(i);
-			Tile b = tmp.getAll().get(tile.suit).get(i+1);
-			Tile c = tmp.getAll().get(tile.suit).get(i+2);
-			if(a.index + 1 == b.index && b.index + 1 == c.index){
-				tmp.discard(a) ;
-				tmp.discard(b) ;
-				tmp.discard(c) ;
-				s = tmp.getAll().get(tile.suit).size() ;
-				continue ;
-			}
-			else {
-				i++ ;
-				s = tmp.getAll().get(tile.suit).size() ;
-			}
-		}
+	private int removeAllShuns(Tile tile) {
+        Hand tmp = new Hand(hand.getAll());  // Criação de uma cópia temporária da mão
+        tmp.add(tile);  // Adiciona o novo tile
+        Collections.sort(tmp.getAll().get(tile.suit));  // Ordena os tiles pelo naipe
+    
+        /* Remove todos os shuns da mão */
+        int i = 0;
+        int s = tmp.getAll().get(tile.suit).size();
+        while (i < s - 2) {
+            Tile a = tmp.getAll().get(tile.suit).get(i);
+            Tile b = tmp.getAll().get(tile.suit).get(i + 1);
+            Tile c = tmp.getAll().get(tile.suit).get(i + 2);
+            if (a.index + 1 == b.index && b.index + 1 == c.index) {
+                tmp.discard(a);  // Remove os tiles que formam um shun
+                tmp.discard(b);
+                tmp.discard(c);
+                s = tmp.getAll().get(tile.suit).size();  // Atualiza o tamanho da lista
+                continue;
+            } else {
+                i++;
+            }
+            s = tmp.getAll().get(tile.suit).size();  // Atualiza o tamanho da lista
+        }
+        return s;  // Retorna o tamanho restante após a remoção dos shuns
+    }
+    
+    private boolean doChow(Tile tile) {
+        if (hand.chowable(tile) == 0)
+            return false;
+    
+        // Chamada do método removeAllShuns
+        removeAllShuns(tile);
+    
+        // Inicialize uma nova mão temporária com a mão atual
+        Hand tmp = new Hand(hand.getAll());
+        tmp.add(tile);  // Adiciona o novo tile para tentar fazer o chow
+    
+        /* Verifica se o tile que você quer fazer chow ainda está na mão */
+        int s = tmp.getAll().get(tile.suit).size();
+        for (int j = 0; j < s; j++) {
+            if (tmp.getAll().get(tile.suit).get(j).equals(tile))
+                return false;
+        }
+    
+        return true;  // Retorna true se o chow puder ser realizado
+    }
 
-		/* check if the tile you want to chow is left or not */
-		s = tmp.getAll().get(tile.suit).size() ;
-		for( int j = 0 ; j < s ; j++ ){
-			if( tmp.getAll().get(tile.suit).get(j).equals(tile) )
-				return false ;
-		}
-		return true ;
-	}
+    private boolean doPong(Tile tile) {
+        if (!hand.pongable(tile))
+            return false;
+    
+        // Chamada do método removeAllShuns
+        removeAllShuns(tile);
+    
+        // Inicialize uma nova mão temporária com a mão atual
+        Hand tmp = new Hand(hand.getAll());
+        tmp.add(tile); 
+    
+        /* Verifica se existem pelo menos 3 tiles iguais para fazer o Pong */
+        int count = 0;
+        int s = tmp.getAll().get(tile.suit).size();
+        for (int j = 0; j < s; j++) {
+            if (tmp.getAll().get(tile.suit).get(j).equals(tile)) {
+                count++;
+            }
+        }
+    
+        // Verifica se existem 3 ou mais tiles iguais
+        if (count >= 3) {
+            return true;
+        }
+    
+        return false;
+    }
 
-	private boolean doPong(Tile tile){
-		if( !hand.pongable(tile) )
-			return false ;
-	
-		Hand tmp = new Hand(hand.getAll()) ;
-		tmp.add(tile) ;
-		Collections.sort(tmp.getAll().get(tile.suit));
+    private boolean doRichi(Tile tile) {
+        if (exposed == 0) {
+            ArrayList<Tile> tingTile = hand.tingable(tile);
+            if (tingTile != null && tingTile.size() > 0)
+                return true;
+        }
+        return false;
+    }
 
-		/* remove all shuns in the hand */
-		int i = 0 ;
-		int s = tmp.getAll().get(tile.suit).size() ;
-		while(i < s - 2){
-			Tile a = tmp.getAll().get(tile.suit).get(i);
-			Tile b = tmp.getAll().get(tile.suit).get(i+1);
-			Tile c = tmp.getAll().get(tile.suit).get(i+2);
-			if(a.index + 1 == b.index && b.index + 1 == c.index){
-				tmp.discard(a) ;
-				tmp.discard(b) ;
-				tmp.discard(c) ;
-				s = tmp.getAll().get(tile.suit).size() ;
-				continue ;
-			}
-			else {
-				i++ ;
-				s = tmp.getAll().get(tile.suit).size() ;
-			}
-		}
+    private boolean doHu(Tile tile) {
+        if (hand.tingable(tile) == null)
+            return true;
+        else
+            return false;
+    }
 
-		/* check if the tile you want to pong is left and size >= 3 or not */
-		s = tmp.getAll().get(tile.suit).size() ;
-		for( int j = 0 ; j < s ; j++ ){
-			if( tmp.getAll().get(tile.suit).get(j).equals(tile) && tmp.getAll().get(tile.suit).get(j).getSize() >= 3 )
-				return true ;
-		}
-		return false ;
-	}
+    private Tile decideDiscard(Hand _hand) {
 
-	private boolean doRichi(Tile tile){
-		if( exposed == 0 ){
-			ArrayList<Tile> tingTile = hand.tingable(tile) ;
-			if( tingTile != null && tingTile.size() > 0 )
-				return true ;
-		}
-		return false ;
-	}
-
-	private boolean doHu(Tile tile){
-		if( hand.tingable(tile) == null )
-			return true ;
-		else
-			return false ;
-	}
-
-	private Tile decideDiscard(Hand _hand){
-
-		Hand tmp = new Hand(_hand.getAll()) ;
-
-		/* initialize discard tile */
-		Tile res = null ;
-		for( int suit = 3 ; suit >= 0 ; suit-- ){
-			if( tmp.getAll().get(suit).size() > 0 ){
-				res = tmp.getAll().get(suit).get(0) ;
-				break ;
-			}
-		}
-
-		/* remove all shuns in the hand */
-		for( int suit = 0 ; suit <= 2 ; suit++ ){
-			Collections.sort(tmp.getAll().get(suit));
-
-			int i = 0 ;
-			int s = tmp.getAll().get(suit).size() ;
-			while(i < s - 2){
-				Tile a = tmp.getAll().get(suit).get(i);
-				Tile b = tmp.getAll().get(suit).get(i+1);
-				Tile c = tmp.getAll().get(suit).get(i+2);
-				if(a.index + 1 == b.index && b.index + 1 == c.index){
-					tmp.discard(a) ;
-					tmp.discard(b) ;
-					tmp.discard(c) ;
-					s = tmp.getAll().get(suit).size() ;
-					continue ;
-				}
-				else {
-					i++ ;
-					s = tmp.getAll().get(suit).size() ;
-				}
-			}
-		}
-
-		for( int suit = 3 ; suit >= 0 ; suit-- ){
-			if( tmp.getAll().get(suit).size() > 0 ){
-				res = tmp.getAll().get(suit).get(0) ;
-				break ;
-			}
-		}
-
-		/* remove all triplets in the hand */
-		for( int suit = 0 ; suit <= 3 ; suit++ ){
-			Collections.sort(tmp.getAll().get(suit));
-
-			int i = 0 ;
-			int s = tmp.getAll().get(suit).size() ;
-			while(i < s){
-				Tile a = tmp.getAll().get(suit).get(i) ;
-				if( a.getSize() >= 3 ){
-					tmp.discard(a) ;
-					tmp.discard(a) ;
-					tmp.discard(a) ;
-					s = tmp.getAll().get(suit).size() ;
-					continue ;
-				}
-				else {
-					i++ ;
-					s = tmp.getAll().get(suit).size() ;
-				}
-			}
-		}
-
-		for( int suit = 3 ; suit >= 0 ; suit-- ){
-			if( tmp.getAll().get(suit).size() > 0 ){
-				res = tmp.getAll().get(suit).get(0) ;
-				break ;
-			}
-		}
-
-		/* remove all pairs in the hand */
-		for( int suit = 0 ; suit <= 3 ; suit++ ){
-			Collections.sort(tmp.getAll().get(suit));
-
-			int i = 0 ;
-			int s = tmp.getAll().get(suit).size() ;
-			while(i < s){
-				Tile a = tmp.getAll().get(suit).get(i) ;
-				if( a.getSize() >= 2 ){
-					tmp.discard(a) ;
-					tmp.discard(a) ;
-					s = tmp.getAll().get(suit).size() ;
-					continue ;
-				}
-				else {
-					i++ ;
-					s = tmp.getAll().get(suit).size() ;
-				}
-			}
-		}
-
-		for( int suit = 3 ; suit >= 0 ; suit-- ){
-			if( tmp.getAll().get(suit).size() > 0 ){
-				res = tmp.getAll().get(suit).get(0) ;
-				break ;
-			}
-		}
-
-		return res ;
-	}
+        Hand tmp = new Hand(_hand.getAll());
+    
+        /* initialize discard tile */
+        Tile res = null;
+        for (int suit = 3; suit >= 0; suit--) {
+            if (tmp.getAll().get(suit).size() > 0) {
+                res = tmp.getAll().get(suit).get(0);
+                break;
+            }
+        }
+    
+        /* remove all shuns in the hand */
+        for (int suit = 0; suit <= 2; suit++) {
+            if (tmp.getAll().get(suit).size() > 0) {
+                Tile tile = tmp.getAll().get(suit).get(0);  // Seleciona um tile para chamar o método
+                removeAllShuns(tile);  // Chama o método criado
+            }
+        }
+    
+        for (int suit = 3; suit >= 0; suit--) {
+            if (tmp.getAll().get(suit).size() > 0) {
+                res = tmp.getAll().get(suit).get(0);
+                break;
+            }
+        }
+    
+        /* remove all triplets in the hand */
+        for (int suit = 0; suit <= 3; suit++) {
+            Collections.sort(tmp.getAll().get(suit));
+    
+            int i = 0;
+            int s = tmp.getAll().get(suit).size();
+            while (i < s) {
+                Tile a = tmp.getAll().get(suit).get(i);
+                if (a.getSize() >= 3) {
+                    tmp.discard(a);
+                    tmp.discard(a);
+                    tmp.discard(a);
+                    s = tmp.getAll().get(suit).size();
+                    continue;
+                } else {
+                    i++;
+                    s = tmp.getAll().get(suit).size();
+                }
+            }
+        }
+    
+        for (int suit = 3; suit >= 0; suit--) {
+            if (tmp.getAll().get(suit).size() > 0) {
+                res = tmp.getAll().get(suit).get(0);
+                break;
+            }
+        }
+    
+        /* remove all pairs in the hand */
+        for (int suit = 0; suit <= 3; suit++) {
+            Collections.sort(tmp.getAll().get(suit));
+    
+            int i = 0;
+            int s = tmp.getAll().get(suit).size();
+            while (i < s) {
+                Tile a = tmp.getAll().get(suit).get(i);
+                if (a.getSize() >= 2) {
+                    tmp.discard(a);
+                    tmp.discard(a);
+                    s = tmp.getAll().get(suit).size();
+                    continue;
+                } else {
+                    i++;
+                    s = tmp.getAll().get(suit).size();
+                }
+            }
+        }
+    
+        for (int suit = 3; suit >= 0; suit--) {
+            if (tmp.getAll().get(suit).size() > 0) {
+                res = tmp.getAll().get(suit).get(0);
+                break;
+            }
+        }
+    
+        return res;
+    }
 
 	private Action win(int actionType){ /* status: RON or HU */
 		ArrayList<Tile> allTiles = new ArrayList<Tile>() ;
@@ -403,6 +387,7 @@ public class AI extends Player{
 	}
 
 	//if chow/pong failed, use this method to notify player
+	// se chow/pong falhar, use este método para notificar o jogador
 	public void failed(){
 		if( exposed > 0 )
 			exposed-- ;
